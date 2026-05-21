@@ -91,15 +91,16 @@
         .product-image-area {
             width: 100%;
             height: 420px;
-            background: #e5e5e5;
+            background: #ffffff; /* グレーから白背景に変更 */
             position: relative;
         }
+        /*
         .product-image-area::before {
             content: "";
             position: absolute;
             width: 100%; height: 100%;
             background: linear-gradient(135deg, #e0dcd3 0%, #bcbaa9 100%);
-        }
+        }*/
         .product-image-area::after {
             content: "LOOSE WIDE VINTAGE CHINO";
             position: absolute;
@@ -482,7 +483,9 @@
                 <span>🛒</span>
             </div>
             
-            <div class="product-image-area"></div>
+            <div class="product-image-area">
+                <img src="./img/green.jpg" alt="product" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
             
             <div class="product-info">
                 <div class="product-tag">NEW ARRIVAL</div>
