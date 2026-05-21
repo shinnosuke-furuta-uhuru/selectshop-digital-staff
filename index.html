@@ -69,6 +69,7 @@
             overflow-y: auto; 
             position: relative;
             background: #ffffff;
+            transition: opacity 0.4s ease; /* ページ切り替え用のフェード演出 */
         }
 
         .pdp-header {
@@ -80,6 +81,7 @@
             border-bottom: 1px solid var(--border-light);
             margin-top: 15px;
             background: #ffffff;
+            position: relative;
         }
         .brand-logo {
             font-family: 'Bodoni Moda', serif;
@@ -94,6 +96,9 @@
             height: 540px; 
             background: #ffffff; 
             position: relative;
+        }
+        .product-image-area img {
+            transition: src 0.4s ease;
         }
 
         /* 商品情報（本家再現エリア） */
@@ -472,7 +477,7 @@
         .dm-layer {
             position: absolute;
             bottom: 0; left: 0; width: 100%; 
-            height: 72%; /* 💡表示領域を60%➔72%に広げて画像スペースを完全に確保 */
+            height: 72%; /* 表示領域を72%に広げて画像スペースを完全に確保 */
             background: #ffffff; z-index: 1000;
             transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex; flex-direction: column;
@@ -485,7 +490,7 @@
         .dm-header { height: 50px; border-bottom: 1px solid #eeeeee; padding: 0 20px 10px 20px; display: flex; align-items: center; gap: 12px; }
         .dm-back { cursor: pointer; font-size: 18px; }
         
-        /* 💡超重要：下部に220pxの巨大パディングを敷き詰め、最下部までスクロールした際に画像を完全にボタンの上まで引き上げます */
+        /* 下部に220pxの巨大パディングを敷き詰め、最下部までスクロールした際に画像を完全にボタンの上まで引き上げます */
         .dm-body { 
             flex: 1; 
             padding: 20px 20px 220px 20px; 
@@ -509,15 +514,15 @@
         .msg.user { background: #111111; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 4px; max-width: 80%; }
         .msg.agent { background: #ffffff; color: var(--text-main); border-bottom-left-radius: 4px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 
-        /* 接客画像カルーセル（絶対に押し潰されないように flex-shrink: 0 を付与） */
+        /* 接客画像カルーセル */
         .dm-carousel {
             display: flex; gap: 12px; overflow-x: auto; padding: 8px 20px 8px 32px; width: calc(100% + 40px); margin-left: -20px; scroll-snap-type: x mandatory; pointer-events: auto;
-            flex-shrink: 0; /* 💡絶対に縮まないようにガード */
+            flex-shrink: 0; /* 絶対に縮まないようにガード */
             opacity: 0; animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
         }
         .dm-carousel::-webkit-scrollbar { display: none; }
         
-        /* 全身の「ずるっと感」が100%伝わる、ハーフシートに最適な縦長200pxに微調整 */
+        /* 全身の「ずるっと感」が100%伝わる縦長200px */
         .dm-carousel-item { 
             flex: 0 0 130px; 
             height: 200px; 
@@ -546,7 +551,7 @@
 
         .dm-footer-action { padding: 15px 20px 25px 20px; background: #ffffff; border-top: 1px solid #eeeeee; display: none; z-index: 1100; }
         .dm-footer-action.active { display: block; opacity: 1; animation: msgFadeIn 0.6s forwards; }
-        .neon-cart-btn { width: 100%; background: #111111; color: #ffffff; border: none; padding: 16px; border-radius: 8px; font-weight: bold; font-size: 14px; }
+        .neon-cart-btn { width: 100%; background: #111111; color: #ffffff; border: none; padding: 16px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; transition: all 0.3s ease; text-align: center; }
         .neon-cart-btn.glow { animation: neonPulse 2s infinite alternate; }
         @keyframes neonPulse { 0% { box-shadow: 0 0 4px #fff, 0 0 10px var(--primary-color); } 100% { box-shadow: 0 0 8px #fff, 0 0 20px var(--primary-color); } }
     </style>
@@ -556,15 +561,15 @@
     <div class="phone-wrapper">
         <div class="notch"></div>
 
-        <div class="pdp-container">
+        <div class="pdp-container" id="pdpContainer">
             <div class="pdp-header">
                 <span class="brand-logo" style="font-size: 12px; font-weight: 300;">← BACK</span>
                 <span class="brand-logo">A-SHOP STANDARD</span>
-                <span>🛒</span>
+                <span id="headerCart" style="position: relative; cursor: pointer;">🛒</span>
             </div>
             
             <div class="product-image-area">
-                <img src="./img/green.jpg" alt="product" style="width: 100%; height: 100%; object-fit: contain;">
+                <img id="pdpImage" src="./img/green.jpg" alt="product" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
             
             <div class="product-info">
@@ -573,7 +578,7 @@
                     <span class="size-check-link">比較する ＞</span>
                 </div>
                 <div class="pdp-section-box">
-                    <div class="color-name-title">KHAKI</div>
+                    <div class="color-name-title" id="colorTitle">KHAKI</div>
                     <div class="size-stock-chips">
                         <div class="stock-chip">XS / 在庫あり</div>
                         <div class="stock-chip">S / 在庫あり</div>
@@ -594,8 +599,8 @@
                 </div>
                 <div class="main-meta-box">
                     <div class="meta-brand">A-SHOP STANDARD</div>
-                    <h1 class="meta-title">LOOSE WIDE VINTAGE CHINO PANTS</h1>
-                    <div class="meta-price-row">¥16,500 <span class="meta-price-tax">(税込)</span></div>
+                    <h1 class="meta-title" id="pdpTitle">LOOSE WIDE VINTAGE CHINO PANTS</h1>
+                    <div class="meta-price-row" id="pdpPrice">¥16,500 <span class="meta-price-tax">(税込)</span></div>
                     <div class="meta-points-delivery"><span style="color:#e11d48; font-weight: bold;">300ポイント付与</span><br>送料：330円</div>
                     <div class="rating-box">
                         <span class="stars">★★★★★</span><span class="rating-score">4.9</span><span class="rating-count">(42)</span><span class="rating-link">レビューを見る</span>
@@ -637,7 +642,7 @@
                     <div class="staff-avatar"><img src="./hikari.jpg" onerror="this.src='https://i.pravatar.cc/100?img=32'"></div>
                     <div class="staff-name">HIKARI (158cm) | RECOMMEND</div>
                 </div>
-                <div class="stories-text">ウエストをあえて落として、<span class="highlight-word">ずるっと履く</span>のが今年の一番の推しスタイル。この<span class="highlight-word">クタッと感が最高</span>んです。</div>
+                <div class="stories-text">ウエストをあえて落として、<span class="highlight-word">ずるっと履く</span>のが今年の一番の推しスタイル。この<span class="highlight-word">クタッと感が最高</span>なんです。</div>
             </div>
         </div>
 
@@ -667,7 +672,7 @@
             </div>
 
             <div class="dm-footer-action" id="dmFooter">
-                <button class="neon-cart-btn glow">このサイズ（M）をカートに入れる</button>
+                <button class="neon-cart-btn glow" onclick="clickCartIn()">このサイズ（M）をカートに入れる</button>
             </div>
         </div>
     </div>
@@ -700,6 +705,7 @@
                 const container = document.getElementById('streamingContainer');
                 reviewsData.forEach((data, index) => {
                     const reviewEl = document.createElement('div');
+                    reviewEl.createElement = 'div';
                     reviewEl.classList.add('flow-review-item');
                     reviewEl.innerHTML = data.text;
                     if (data.left) reviewEl.style.left = `${data.left}px`;
@@ -714,7 +720,7 @@
 
             setTimeout(() => {
                 document.getElementById('questionContainer').classList.add('active');
-            }, 27000);
+            }, 30000);
         });
 
         function startDM(userQuestion) {
@@ -751,6 +757,88 @@
             }, 1200);
         }
 
+        /* 💡新設：カートインエフェクト ＆ 別商品への遷移誘導ロジック */
+        function clickCartIn() {
+            const btn = document.querySelector('.neon-cart-btn');
+            btn.innerText = "カートに追加しました！🛒";
+            btn.classList.remove('glow');
+            btn.style.background = "#22c55e"; // 成功のグリーンに変化
+            
+            // 右上のカートアイコンを「①」にする
+            document.getElementById('headerCart').innerHTML = "🛒<span style='font-size:10px; color:#ffffff; background:var(--primary-color); border-radius:50%; width:15px; height:15px; display:flex; justify-content:center; align-items:center; position:absolute; top:-4px; right:-6px; font-weight:bold;'>1</span>";
+
+            // カートイン直後にAI店員から次なるクロスセル提案が走る
+            setTimeout(() => {
+                appendMessage("チノパン、しっかりキープ（カートイン）しておきました！👍\n\nちなみに、さっきカルーセルの1枚目でお見せしたコーディネートで羽織っている、上品な『フレンチリネンシャツ』も今季めちゃくちゃ人気なんです。そちらのアイテムも見に行ってみますか？", 'agent');
+                
+                // チャットスレッド内に「別商品ページへの擬似遷移ボタン」を流す
+                setTimeout(() => {
+                    const dmBody = document.getElementById('dmBody');
+                    const nextLinkBtn = document.createElement('button');
+                    nextLinkBtn.className = 'question-btn';
+                    nextLinkBtn.style.marginTop = '10px';
+                    nextLinkBtn.style.width = '100%';
+                    nextLinkBtn.style.pointerEvents = 'auto';
+                    nextLinkBtn.style.border = '1px solid var(--primary-color)';
+                    nextLinkBtn.innerHTML = "【次の提案を見る】リネンシャツのページへ ➔";
+                    
+                    // タップしたら別商品PDPへ遷移する関数を発火
+                    nextLinkBtn.onclick = () => goToNextProduct();
+                    
+                    dmBody.appendChild(nextLinkBtn);
+                    
+                    setTimeout(() => {
+                        dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
+                    }, 100);
+                }, 1200);
+            }, 1200);
+        }
+
+        /* 💡新設：別商品ページへの擬似遷移 ＆ セッション記憶（コンテキスト維持）接客再現 */
+        function goToNextProduct() {
+            // 一瞬DMシートを閉じて、ページが切り替わる臨場感を演出
+            closeDM();
+            
+            const pdp = document.getElementById('pdpContainer');
+            pdp.style.opacity = '0'; // フェードアウト
+            
+            setTimeout(() => {
+                // 1st Viewの情報を一瞬で「シャツ」に書き換える（ダミーリダイレクト）
+                document.getElementById('pdpImage').src = 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=500&auto=format&fit=crop';
+                document.getElementById('pdpTitle').innerText = 'FRENCH LINEN REGULAR SHIRT';
+                document.getElementById('pdpPrice').innerHTML = '¥14,300 <span class="meta-price-tax">(税込)</span>';
+                document.getElementById('colorTitle').innerText = 'WHITE';
+                
+                pdp.style.opacity = '1'; // フェードイン
+                
+                // 1.5秒後、移動先の棚でHIKARIが「さっきの文脈を覚えた状態」で自動で話しかけてくる神演出
+                setTimeout(() => {
+                    document.getElementById('dmLayer').classList.add('active');
+                    document.getElementById('dmOverlay').classList.add('active');
+                    document.querySelector('.pdp-container').style.overflow = 'hidden';
+
+                    appendMessage("シャツのページへようこそ！✨ さっきカートに入れていただいた『ヴィンテージチノ』とこのシャツを合わせると、まさに先ほどお話しした『ヨーロッパの空気感』が120%完成します！チノのクタッと感に、リネンの上質な風合いが絶妙にマッチするんですよね。僕のイチ推しコーデです！", 'agent');
+                    
+                    // 下部CTAボタンを「合わせ買い」仕様にトランスフォーム
+                    const footerBtn = document.querySelector('.neon-cart-btn');
+                    footerBtn.innerText = "チノパンと合わせて、このシャツもカートに入れる";
+                    footerBtn.style.background = "#111111";
+                    footerBtn.classList.add('glow');
+                    
+                    // 2回目のカートインアクション
+                    footerBtn.onclick = () => {
+                        footerBtn.innerText = "2点まとめてカートに追加しました！🛒";
+                        footerBtn.style.background = "#22c55e";
+                        footerBtn.classList.remove('glow');
+                        document.getElementById('headerCart').innerHTML = "🛒<span style='font-size:10px; color:#ffffff; background:var(--primary-color); border-radius:50%; width:15px; height:15px; display:flex; justify-content:center; align-items:center; position:absolute; top:-4px; right:-6px; font-weight:bold;'>2</span>";
+                    };
+                    
+                    document.getElementById('dmFooter').classList.add('active');
+                }, 1500);
+
+            }, 400);
+        }
+
         function appendMessage(text, sender) {
             const dmBody = document.getElementById('dmBody');
             if (sender === 'agent') {
@@ -768,7 +856,6 @@
                 dmBody.appendChild(msgDiv);
             }
             
-            // 確実な引き上げのためのタイマーラグ調整
             setTimeout(() => {
                 dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
             }, 300); 
@@ -780,9 +867,9 @@
             carouselDiv.classList.add('dm-carousel');
             
             const imgs = [
-                {url: './img/styling01.jpg', label: '170cm / M'},
-                {url: './img/styling02.jpg', label: '167cm / M'},
-                {url: './img/styling03.jpg', label: '177cm / L'}
+                {url: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=300&auto=format&fit=crop', label: '158cm / M'},
+                {url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=300&auto=format&fit=crop', label: '162cm / M'},
+                {url: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?q=80&w=300&auto=format&fit=crop', label: '153cm / S'}
             ];
             
             imgs.forEach(img => {
@@ -794,7 +881,6 @@
             });
             dmBody.appendChild(carouselDiv);
             
-            // 💡重要：画像が挿入された後に、220pxのパディング領域を活かして最下部まで強制スクロール
             setTimeout(() => {
                 dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
             }, 400); 
