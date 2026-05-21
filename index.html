@@ -18,10 +18,10 @@
             --glass-bg: rgba(255, 255, 255, 0.9);
             --glass-blur: blur(12px);
             
-            /* 💡一目で激変したとわかる、100%西海岸ヴィンテージ（70'sウォームアース）パレット */
-            --wb-bg: rgba(184, 91, 53, 0.94);      /* カリフォルニアの夕陽を浴びたテラコッタ（フェードバーントオレンジ） */
-            --wb-text: #fdfbf7;                    /* 70年代古着のタグのような、無漂白コットンの優しげな生成りアイボリー */
-            --wb-highlight: #f3bc3c;               /* 当時のアイビー・カレッジカルチャーを象徴するレトロマスタードイエロー */
+            /* 💡変更：検索結果のインテリアに馴染む、明るく開放的な「モダン・カリフォルニア」パレット */
+            --wb-bg: rgba(246, 243, 236, 0.96);    /* 乾いたビーチの砂浜や上質なリゾート建築を想起させる、明るく薄いサンドベージュ */
+            --wb-text: #22201e;                    /* 全体の文字を引き締める、わずかに温かみを含んだ上品なアースブラック */
+            --wb-highlight: #ff5a00;               /* クライアント様風の鮮やかなオレンジ（黒文字の中でバシッと映えます） */
         }
 
         * {
@@ -201,19 +201,19 @@
         /* 💡アプデ：口コミの背景と強調色に西海岸アースカラーパレットを完全適用 */
         .flow-review-item { 
             position: absolute; 
-            background: var(--wb-bg);      /* 70'sフェードテラコッタ */
-            color: var(--wb-text);         /* 生成りコットンのアイボリー */
+            background: var(--wb-bg);      
+            color: var(--wb-text);         
             padding: 12px 18px; 
             border-radius: 20px; 
             font-size: 12px; 
             line-height: 1.5; 
-            box-shadow: 0 8px 24px rgba(184,91,53,0.22); 
+            box-shadow: 0 8px 30px rgba(38, 35, 32, 0.08); /* 影を薄くして、透明感のある浮遊エフェクトへ */
             opacity: 0; 
             max-width: 250px; 
             word-break: break-word; 
         }
         .review-highlight { 
-            color: var(--wb-highlight);   /* サンセットマスタードゴールド */
+            color: var(--wb-highlight);   
             font-weight: 700; 
             font-size: 13.5px; 
             display: inline-block; 
