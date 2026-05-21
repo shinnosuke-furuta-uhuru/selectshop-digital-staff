@@ -106,11 +106,12 @@
         /* 簡単サイズチェック */
         .size-check-banner {
             background: #1a1a1a; color: #ffffff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: bold;
+            letter-spacing: 0.5px;
         }
         .size-check-link { border: 1px solid #ffffff; padding: 4px 12px; border-radius: 20px; font-size: 11px; }
 
         .pdp-section-box { background: #ffffff; padding: 20px; border-bottom: 1px solid #f0f0f0; }
-        .color-name-title { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; }
+        .color-name-title { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; letter-spacing: 0.5px; }
         .size-stock-chips { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; }
         .size-stock-chips::-webkit-scrollbar { display: none; }
         .stock-chip { border: 1px solid #dddddd; padding: 6px 12px; border-radius: 4px; font-size: 11px; white-space: nowrap; color: #444444; }
@@ -125,16 +126,16 @@
         .thumb-label { font-size: 9px; color: var(--text-sub); display: block; white-space: nowrap; }
 
         .main-meta-box { background: #ffffff; padding: 24px 20px; border-bottom: 1px solid #f0f0f0; }
-        .meta-brand { font-size: 11px; font-weight: bold; letter-spacing: 1.5px; margin-bottom: 4px; }
-        .meta-title { font-size: 16px; font-weight: 700; line-height: 1.4; margin-bottom: 12px; }
-        .meta-price-row { font-size: 18px; font-weight: bold; }
+        .meta-brand { font-size: 11px; font-weight: bold; letter-spacing: 1.5px; color: #111111; margin-bottom: 4px; }
+        .meta-title { font-size: 16px; font-weight: 700; line-height: 1.4; color: #111111; margin-bottom: 12px; }
+        .meta-price-row { font-size: 18px; font-weight: bold; letter-spacing: 0.5px; margin-bottom: 6px; }
         .meta-price-tax { font-size: 12px; font-weight: normal; color: var(--text-sub); }
 
         .pdp-footer-action {
             height: 80px; padding: 15px 20px; border-top: 1px solid var(--border-light); display: flex; gap: 12px; background: #ffffff; z-index: 600; 
         }
-        .action-btn-main { flex: 1; background: #111111; color: #ffffff; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; }
-        .action-btn-sub { width: 50px; border: 1px solid #cccccc; border-radius: 8px; display: flex; justify-content: center; align-items: center; }
+        .action-btn-main { flex: 1; background: #111111; color: #ffffff; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
+        .action-btn-sub { width: 50px; border: 1px solid #cccccc; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 18px; }
 
         /* --- 固定型ストリーミング接客レイヤー --- */
         .streaming-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500; }
@@ -182,7 +183,7 @@
         }
         .dm-layer.active { transform: translateY(0); }
         
-        /* 💡最小化状態（ヘッダーの50pxだけ最下部に見残す） */
+        /* 最小化状態 */
         .dm-layer.active.minimized {
             transform: translateY(calc(100% - 54px));
             cursor: pointer;
@@ -193,7 +194,7 @@
         .dm-header { height: 50px; border-bottom: 1px solid #eeeeee; padding: 0 20px 10px 20px; display: flex; align-items: center; gap: 12px; }
         .dm-back { cursor: pointer; font-size: 18px; }
         
-        /* 下部に220pxの巨大パディングを敷き詰め、最下部までスクロールした際に画像を完全にボタンの上まで引き上げます */
+        /* 下部に220pxの巨大パディング */
         .dm-body { flex: 1; padding: 20px 20px 220px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: #fafafa; }
         
         .agent-msg-wrapper { display: flex; gap: 8px; align-items: flex-end; align-self: flex-start; max-width: 85%; }
@@ -214,7 +215,7 @@
         .dm-carousel-item img { width: 100%; height: 100%; object-fit: cover; }
         .dm-carousel-item::after { content: attr(data-label); position: absolute; bottom: 8px; left: 8px; font-size: 9px; font-weight: bold; color: #fff; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; letter-spacing: 1px; }
 
-        /* チャット内に美しく流れるタップ可能な商品画像カード */
+        /* タップ可能な商品画像カード */
         .dm-product-link-card {
             width: 160px; height: 220px; background: #ffffff; border: 1px solid #eeeeee; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); cursor: pointer; align-self: flex-start; margin-left: 32px; opacity: 0; transform: translateY(10px); animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1); position: relative; pointer-events: auto; flex-shrink: 0;
         }
@@ -365,7 +366,7 @@
             { text: "ガシガシ洗って<span class='review-highlight'>クタクタにして穿く</span>のが今から楽しみ！", right: 24, delay: 6.0 }
         ];
 
-        // 💡新設：② ジャケットページ専用の口コミデータ
+        // ② ジャケットページ専用の口コミデータ
         const jacketReviewsData = [
             { text: "金ボタンの贅沢感がこの価格で手に入るのバグすぎる…！✨", left: 16, delay: 0 },
             { text: "トラッドすぎない絶妙なボックスシルエット！羽織るだけでお洒落感でる。", right: 16, delay: 0.8 },
@@ -391,7 +392,7 @@
                 const container = document.getElementById('streamingContainer');
                 reviewsData.forEach((data, index) => {
                     const reviewEl = document.createElement('div');
-                    reviewEl.classList.add('flow-review-item'); // 修正：タイポエラーを完全に排除
+                    reviewEl.classList.add('flow-review-item');
                     reviewEl.innerHTML = data.text;
                     if (data.left) reviewEl.style.left = `${data.left}px`;
                     if (data.right) reviewEl.style.right = `${data.right}px`;
@@ -411,6 +412,7 @@
         function startDM(userQuestion) {
             document.getElementById('dmLayer').classList.add('active');
             document.getElementById('dmOverlay').classList.add('active');
+            
             document.querySelector('.pdp-container').style.overflow = 'hidden';
             
             appendMessage(userQuestion, 'user');
@@ -534,21 +536,28 @@
             }, 1000);
         }
 
+        /* 💡修正：ジャケットページへの遷移時に、チノパン用の古い想定質問ボタンと口コミを完全クリアする */
         function goToNextProduct() {
             closeDM();
+            
+            // 💡追加：チノパン用の質問ボタンのactiveクラス（表示）を消去して隠す
+            document.getElementById('questionContainer').classList.remove('active');
+            // 💡追加：画面を綺麗にするため、チノパン用の古い口コミやサマリーカードをクリア
+            document.getElementById('streamingContainer').innerHTML = '';
+            
             const pdp = document.getElementById('pdpContainer');
-            pdp.style.opacity = '0'; 
+            pdp.style.opacity = '0'; // 画面暗転フェードアウト
             
             setTimeout(() => {
-                // 遷移先の情報をジャケット情報へ書き換え
+                // 1st Viewの内容を一瞬で「ネイビージャケット」のパーツ情報に書き換え
                 document.getElementById('pdpImage').src = './img/jacket01.jpg';
                 document.getElementById('pdpTitle').innerText = 'NAVY TRAD BLAZER JACKET';
                 document.getElementById('pdpPrice').innerHTML = '¥38,500 <span class="meta-price-tax">(税込)</span>';
                 document.getElementById('colorTitle').innerText = 'NAVY';
                 document.getElementById('colorLabel').innerText = 'NAVY';
                 
-                pdp.style.opacity = '1'; 
-                isJacketPage = true; // 💡ジャケットページに切り替わったフラグ
+                pdp.style.opacity = '1'; // フェードイン
+                isJacketPage = true; // ジャケットページに切り替わったフラグ
 
                 setTimeout(() => {
                     document.getElementById('dmLayer').classList.add('active');
@@ -562,7 +571,7 @@
                     footerBtn.style.background = "#111111";
                     footerBtn.classList.add('glow');
                     
-                    // 2点まとめての最終カートイン
+                    // 2点目のカートインアクション
                     footerBtn.onclick = (e) => {
                         e.stopPropagation(); // 最大化イベントの巻き込みをガード
                         footerBtn.innerText = "2点まとめてカートに追加しました！🛒";
@@ -577,7 +586,6 @@
             }, 400);
         }
 
-        /* 💡新設：シートハンドル（横棒）タップ時の「下に最小化」制御ロジック */
         function minimizeDM(event) {
             if (event) event.stopPropagation(); // 最大化イベントの暴発を防ぐ
             
@@ -585,26 +593,23 @@
             const dmOverlay = document.getElementById('dmOverlay');
             
             dmLayer.classList.add('minimized');
-            dmOverlay.classList.remove('active'); // 背景の暗転を一時解除
-            document.querySelector('.pdp-container').style.overflow = 'auto'; // スクロール一時解禁
+            dmOverlay.classList.remove('active'); 
+            document.querySelector('.pdp-container').style.overflow = 'auto'; 
             
-            // 💡ジャケットページかつ、まだジャケットの口コミを流していなければストリーミング開始
             if (isJacketPage && !jacketReviewsFired) {
                 fireJacketReviews();
             }
         }
 
-        /* 💡新設：最小化シートタップ時の「大きく大画面に戻る」最大化ロジック */
         function maximizeDM() {
             const dmLayer = document.getElementById('dmLayer');
             if (dmLayer.classList.contains('minimized')) {
                 dmLayer.classList.remove('minimized');
-                document.getElementById('dmOverlay').classList.add('active'); // 暗転復活
-                document.querySelector('.pdp-container').style.overflow = 'hidden'; // 背景スクロールロック
+                document.getElementById('dmOverlay').classList.add('active'); 
+                document.querySelector('.pdp-container').style.overflow = 'hidden'; 
             }
         }
 
-        /* 💡新設：ジャケット専用の口コミ6選を動的にストリーミング注入する関数 */
         function fireJacketReviews() {
             jacketReviewsFired = true;
             const container = document.getElementById('streamingContainer');
