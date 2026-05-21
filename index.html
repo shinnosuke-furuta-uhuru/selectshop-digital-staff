@@ -88,7 +88,7 @@
             letter-spacing: 2px;
         }
 
-        /* 商品画像エリア（1st Viewの約80%） */
+        /* 商品画像エリア */
         .product-image-area {
             width: 100%;
             height: 540px; 
@@ -471,7 +471,7 @@
 
         .dm-layer {
             position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 65%; /* 視認性向上のため60%➔65%に微調整 */
+            bottom: 0; left: 0; width: 100%; height: 60%; /* 高さを綺麗なハーフサイズに固定 */
             background: #ffffff; z-index: 1000;
             transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex; flex-direction: column;
@@ -484,10 +484,10 @@
         .dm-header { height: 50px; border-bottom: 1px solid #eeeeee; padding: 0 20px 10px 20px; display: flex; align-items: center; gap: 12px; }
         .dm-back { cursor: pointer; font-size: 18px; }
         
-        /* 修正：padding-bottomを100pxに大幅拡張し、カルーセルを完全露出させる */
+        /* 修正：不自然な巨大空白（100px）を削除し、適切な20pxに整頓 */
         .dm-body { 
             flex: 1; 
-            padding: 20px 20px 100px 20px; 
+            padding: 20px; 
             overflow-y: auto; 
             display: flex; 
             flex-direction: column; 
@@ -508,13 +508,23 @@
         .msg.user { background: #111111; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 4px; max-width: 80%; }
         .msg.agent { background: #ffffff; color: var(--text-main); border-bottom-left-radius: 4px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 
-        /* 接客画像カルーセル（タッチ操作が効きやすいようにpadding調整） */
+        /* 修正：高さを230pxに拡大！全身のスタイリング（ずるっと感）が見える縦長比率へ */
         .dm-carousel {
-            display: flex; gap: 10px; overflow-x: auto; padding: 4px 20px 12px 32px; width: calc(100% + 40px); margin-left: -20px; scroll-snap-type: x mandatory; pointer-events: auto;
+            display: flex; gap: 12px; overflow-x: auto; padding: 8px 20px 8px 32px; width: calc(100% + 40px); margin-left: -20px; scroll-snap-type: x mandatory; pointer-events: auto;
             opacity: 0; animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
         }
         .dm-carousel::-webkit-scrollbar { display: none; }
-        .dm-carousel-item { flex: 0 0 120px; height: 160px; border-radius: 12px; scroll-snap-align: start; position: relative; overflow: hidden; background: #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.05); pointer-events: auto; }
+        .dm-carousel-item { 
+            flex: 0 0 140px; 
+            height: 230px; /* 💡ここをガッツリ伸ばしました！ */
+            border-radius: 12px; 
+            scroll-snap-align: start; 
+            position: relative; 
+            overflow: hidden; 
+            background: #eee; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            pointer-events: auto; 
+        }
         .dm-carousel-item img { width: 100%; height: 100%; object-fit: cover; }
         .dm-carousel-item::after {
             content: attr(data-label); position: absolute; bottom: 8px; left: 8px; font-size: 9px; font-weight: bold; color: #fff;
@@ -623,7 +633,7 @@
                     <div class="staff-avatar"><img src="./hikari.jpg" onerror="this.src='https://i.pravatar.cc/100?img=32'"></div>
                     <div class="staff-name">HIKARI (158cm) | RECOMMEND</div>
                 </div>
-                <div class="stories-text">ウエストをあえて落として、<span class="highlight-word">ずるっと履く</span>のが今年の一番の推しスタイル。この<span class="highlight-word">クタッと感が最高</span>なんです。</div>
+                <div class="stories-text">ウエストをあえて落として、<span class="highlight-word">ずるっと履く</span>のが今年の一番の推しスタイル。この<span class="highlight-word">クタッと感が最高</span>んです。</div>
             </div>
         </div>
 
@@ -703,12 +713,10 @@
             }, 30000);
         });
 
-        // ④ スタッフDM（背景スクロールロックを追加）
         function startDM(userQuestion) {
             document.getElementById('dmLayer').classList.add('active');
             document.getElementById('dmOverlay').classList.add('active');
             
-            // 修正：DMが開いている間は、後ろの商品ページのスクロールを完全ロック
             document.querySelector('.pdp-container').style.overflow = 'hidden';
             
             appendMessage(userQuestion, 'user');
@@ -756,10 +764,9 @@
                 dmBody.appendChild(msgDiv);
             }
             
-            // 修正：メッセージ追加後のスクロールを、描画を待ってから確実に実行
             setTimeout(() => {
                 dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
-            }, 50);
+            }, 150); /* スクロール発火のラグを少し広げて確実に最下部へ */
         }
 
         function appendCarousel() {
@@ -782,10 +789,9 @@
             });
             dmBody.appendChild(carouselDiv);
             
-            // 修正：カルーセル追加後、画像読み込みを考慮してほんの少し待ってから一番下まで自動スクロール
             setTimeout(() => {
                 dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
-            }, 100);
+            }, 250); /* 画像の展開を待ってからスムーズスクロール */
         }
 
         function handleSend() {
@@ -803,8 +809,6 @@
             document.getElementById('dmOverlay').classList.remove('active');
             document.getElementById('dmBody').innerHTML = '';
             document.getElementById('dmFooter').classList.remove('active');
-            
-            // 修正：DMを閉じたら商品ページのスクロールロックを解除
             document.querySelector('.pdp-container').style.overflow = 'auto';
         }
     </script>
