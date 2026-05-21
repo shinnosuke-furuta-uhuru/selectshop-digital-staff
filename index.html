@@ -207,6 +207,41 @@
         .dm-carousel-item img { width: 100%; height: 100%; object-fit: cover; }
         .dm-carousel-item::after { content: attr(data-label); position: absolute; bottom: 8px; left: 8px; font-size: 9px; font-weight: bold; color: #fff; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; letter-spacing: 1px; }
 
+        /* 💡新設：チャット内に美しく流れる「タップ可能な商品画像カード」 */
+        .dm-product-link-card {
+            width: 160px;
+            height: 220px;
+            background: #ffffff;
+            border: 1px solid #eeeeee;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+            align-self: flex-start;
+            margin-left: 32px; /* アイコン幅に揃える */
+            opacity: 0;
+            transform: translateY(10px);
+            animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            pointer-events: auto;
+            flex-shrink: 0;
+        }
+        .dm-product-link-card img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .dm-product-link-card::after {
+            content: "このジャケットを見る ➔";
+            position: absolute;
+            bottom: 0; left: 0; width: 100%;
+            background: rgba(17, 17, 17, 0.85);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            padding: 8px 0;
+            letter-spacing: 0.5px;
+        }
+
         /* 自由チャット入力UI */
         .dm-input-area { padding: 12px 20px; border-top: 1px solid #eeeeee; background: #ffffff; display: flex; gap: 10px; align-items: center; z-index: 1100; }
         .dm-input-area input { flex: 1; border: 1px solid #eeeeee; background: #f8f8f8; padding: 10px 16px; border-radius: 20px; font-size: 13px; outline: none; }
@@ -349,7 +384,7 @@
             { text: "アジャスター付きだからウエスト位置で<span class='review-highlight'>丈を調節できる</span>の天才すぎる👏", left: 12, delay: 4.8 },
             { text: "ガシガシ洗って<span class='review-highlight'>クタクタにして穿く</span>のが今から楽しみ！", right: 24, delay: 6.0 },
             { text: "太さがあるのに横に広がらない。<span class='review-highlight'>落ち感が綺麗すぎ</span>ます…", left: 20, delay: 7.2 },
-            { text: "別注ならではのディテール。ボタン一つとっても<span class='review-highlight'>雰囲気ある</span>な〜", right: 14, delay: 8.5 },
+            { text: "別注ならではのディテール. ボタン一つとっても<span class='review-highlight'>雰囲気ある</span>な〜", right: 14, delay: 8.5 },
             { text: "絶妙なベージュ。<span class='review-highlight'>古着っぽい色落ち</span>が最高にツボです。🎯", left: 28, delay: 9.8 },
             { text: "スラックス感覚で穿ける<span class='review-highlight'>ヴィンテージチノ</span>、やっと出会えました。", right: 16, delay: 11.0 },
             { text: "裾が内側にたまるクッションのおかげで、理想の<span class='review-highlight'>『ずるっと感』</span>が出る！", left: 16, delay: 12.5 },
@@ -398,7 +433,7 @@
                 let showCarousel = false;
 
                 if(userQuestion.includes('引きずりませんか')) {
-                    agentReply = "めちゃくちゃ分かります！でも安心してください。このチノ、裾が少し内側にたまる（クッションになる）計算されたシルエットなんです。厚底スニーカーや3cmくらいのヒールを合わせてもらえれば、地面にはギリギリつかずに、理想の『ずるっと感』が出ますよ！実際のスタッフの着こなしも並べておきますね。";
+                    agentReply = "めちゃくちゃ分かります！でも安心してください。このチノ、裾が少し内側にたまる（クッションになる）計算されたシルエットなんです。厚底スニーカーや3cmくらいのヒールを合わせてもらえれば、地面にはギリギリつかずに、理想 of 『ずるっと感』が出ますよ！実際のスタッフの着こなしも並べておきますね。";
                     showCarousel = true;
                 } else if(userQuestion.includes('経年変化')) {
                     agentReply = "この生地、穿き込むほどにさらに『クタッと感』が増して、自分だけのヴィンテージに育つんです。ガシガシ洗って、クタクタにして穿くのが最高にカッコいいですよ！";
@@ -419,7 +454,6 @@
             }, 1200);
         }
 
-        /* 💡自由チャット欄からのカートイン誘導＆分岐ロジックの完全実装 */
         function handleSend() {
             const input = document.getElementById('dmInput');
             const text = input.value;
@@ -428,11 +462,9 @@
             input.value = '';
 
             setTimeout(() => {
-                // 顧客が「ジャケット」「欲しい」「シャツ」など別商品に興味を持ったかを判定
                 if (text.includes('ジャケット') || text.includes('欲しい') || text.includes('真ん中') || text.includes('シャツ')) {
                     appendMessage("真ん中のネイビートラッドジャケット、めちゃくちゃ格好良いですよね！チノのクタッと感にさらっと羽織るだけで、一気に上品なハズしが完成します。ジャケットのページをご案内する前に、こちらのチノパン（Mサイズ）を一旦カートに入れておきますか？", 'agent');
                     
-                    // チャットスレッド内に「カートインするボタン」を動的に生成
                     setTimeout(() => {
                         const dmBody = document.getElementById('dmBody');
                         const choiceDiv = document.createElement('div');
@@ -465,12 +497,10 @@
             }, 1000);
         }
 
-        /* チャット内ボタン経由のカートイン処理 */
+        /* 💡画像リンクカードを動的に生成して流すロジックへの差し替え */
         function executeCartInFromChat() {
-            // 右上のカートアイコンを1にする
             document.getElementById('headerCart').innerHTML = "🛒<span style='font-size:10px; color:#ffffff; background:var(--primary-color); border-radius:50%; width:15px; height:15px; display:flex; justify-content:center; align-items:center; position:absolute; top:-4px; right:-6px; font-weight:bold;'>1</span>";
             
-            // 下部メインボタンの表示も連動
             const footerBtn = document.getElementById('mainCartBtn');
             footerBtn.innerText = "チノパンをカートに追加しました！🛒";
             footerBtn.classList.remove('glow');
@@ -479,27 +509,25 @@
             appendMessage("はい、カートに入れます。", 'user');
             
             setTimeout(() => {
-                appendMessage("チノパン、しっかりキープ（カートイン）しておきました！👍 では、スタイリングで着用していた『ネイビートラッドジャケット』のページへご案内しますね！", 'agent');
+                appendMessage("チノパン、しっかりキープ（カートイン）してお記しました！👍 では、スタイリングで着用していた『ネイビートラッドジャケット』のページへご案内しますね！カードをタップするとページへ移動します。", 'agent');
                 
-                // 次の別商品ページへ擬似リダイレクトするボタンの出現
+                // 💡テキストボタンを「画像付きリンクカード」に完全差し替え
                 setTimeout(() => {
                     const dmBody = document.getElementById('dmBody');
-                    const nextLinkBtn = document.createElement('button');
-                    nextLinkBtn.className = 'question-btn';
-                    nextLinkBtn.style.marginTop = '10px';
-                    nextLinkBtn.style.width = '100%';
-                    nextLinkBtn.style.pointerEvents = 'auto';
-                    nextLinkBtn.style.border = '1px solid var(--primary-color)';
-                    nextLinkBtn.innerHTML = "【次の提案を見る】ジャケットのページへ進む ➔";
-                    nextLinkBtn.onclick = () => goToNextProduct();
+                    const imgCard = document.createElement('div');
+                    imgCard.className = 'dm-product-link-card';
+                    imgCard.innerHTML = `<img src="./img/jacket01.jpg" alt="jacket">`;
+                    imgCard.onclick = () => goToNextProduct();
                     
-                    dmBody.appendChild(nextLinkBtn);
-                    dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
+                    dmBody.appendChild(imgCard);
+                    
+                    setTimeout(() => {
+                        dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
+                    }, 300);
                 }, 1000);
             }, 1000);
         }
 
-        /* 下部固定ボタンから直接カートインした場合のフォールバック */
         function clickCartInDirect() {
             const btn = document.getElementById('mainCartBtn');
             btn.innerText = "カートに追加しました！🛒";
@@ -508,39 +536,35 @@
             document.getElementById('headerCart').innerHTML = "🛒<span style='font-size:10px; color:#ffffff; background:var(--primary-color); border-radius:50%; width:15px; height:15px; display:flex; justify-content:center; align-items:center; position:absolute; top:-4px; right:-6px; font-weight:bold;'>1</span>";
 
             setTimeout(() => {
-                appendMessage("チノパンをカートに確保しました！こちらのスタイリングで合わせている『ネイビートラッドジャケット』も非常におすすめなのですが、ページを見に行ってみますか？", 'agent');
+                appendMessage("チノパンをカートに確保しました！こちらのスタイリングで合わせている『ネイビートラッドジャケット』も非常におすすめなのですが、下のカードから見に行ってみますか？", 'agent');
                 setTimeout(() => {
                     const dmBody = document.getElementById('dmBody');
-                    const nextLinkBtn = document.createElement('button');
-                    nextLinkBtn.className = 'question-btn';
-                    nextLinkBtn.style.width = '100%';
-                    nextLinkBtn.style.pointerEvents = 'auto';
-                    nextLinkBtn.style.border = '1px solid var(--primary-color)';
-                    nextLinkBtn.innerHTML = "ジャケットのページへ遷移する ➔";
-                    nextLinkBtn.onclick = () => goToNextProduct();
-                    dmBody.appendChild(nextLinkBtn);
+                    const imgCard = document.createElement('div');
+                    imgCard.className = 'dm-product-link-card';
+                    imgCard.innerHTML = `<img src="./img/jacket01.jpg" alt="jacket">`;
+                    imgCard.onclick = () => goToNextProduct();
+                    dmBody.appendChild(imgCard);
                     dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
                 }, 1000);
             }, 1000);
         }
 
-        /* 💡新設：別商品（ジャケット）ページへの擬似遷移 ＆ セッション記憶接客の再現 */
+        /* 💡擬似遷移ロジックの画像パスを、アップロード済みの「./img/jacket01.jpg」に完全同期 */
         function goToNextProduct() {
             closeDM();
             const pdp = document.getElementById('pdpContainer');
-            pdp.style.opacity = '0'; // 画面暗転フェードアウト
+            pdp.style.opacity = '0';
             
             setTimeout(() => {
-                // 1st Viewの内容を一瞬で「ネイビージャケット」のパーツ情報に書き換え
-                document.getElementById('pdpImage').src = 'https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=500&auto=format&fit=crop';
+                // 💡遷移先の商品画像パスを「./img/jacket01.jpg」に変更
+                document.getElementById('pdpImage').src = './img/jacket01.jpg';
                 document.getElementById('pdpTitle').innerText = 'NAVY TRAD BLAZER JACKET';
                 document.getElementById('pdpPrice').innerHTML = '¥38,500 <span class="meta-price-tax">(税込)</span>';
                 document.getElementById('colorTitle').innerText = 'NAVY';
                 document.getElementById('colorLabel').innerText = 'NAVY';
                 
-                pdp.style.opacity = '1'; // フェードイン
+                pdp.style.opacity = '1';
                 
-                // 1.5秒後、移動先のページでHIKARIが「さっきの文脈を覚えた状態」で自動で話しかけてくる演出
                 setTimeout(() => {
                     document.getElementById('dmLayer').classList.add('active');
                     document.getElementById('dmOverlay').classList.add('active');
@@ -548,13 +572,11 @@
 
                     appendMessage("ジャケットのページへようこそ！✨ さっきカートに入れていただいた『ヴィンテージチノ』にこの紺ブレをサッと羽織るだけで、まさに先ほどお話しした洗練された『ヨーロッパの空気感』が完成します！チノのクタッと感と、ジャケットの上品なトラッド感のハズしのバランスが本当に最高なんです。僕の一押しの合わせです！", 'agent');
                     
-                    // 下部CTAボタンを「合わせ買い」仕様にトランスフォーム
                     const footerBtn = document.getElementById('mainCartBtn');
                     footerBtn.innerText = "チノパンと合わせて、このジャケットもカートに入れる";
                     footerBtn.style.background = "#111111";
                     footerBtn.classList.add('glow');
                     
-                    // 2点目のカートインアクション
                     footerBtn.onclick = () => {
                         footerBtn.innerText = "2点まとめてカートに追加しました！🛒";
                         footerBtn.style.background = "#22c55e";
