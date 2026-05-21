@@ -17,6 +17,11 @@
             --border-light: #eeeeee;
             --glass-bg: rgba(255, 255, 255, 0.9);
             --glass-blur: blur(12px);
+            
+            /* 💡新設：アメリカ西海岸（ウォームヴィンテージ）パレット */
+            --wb-bg: rgba(38, 35, 32, 0.92);      /* 日差しで色褪せた古着のような墨黒 */
+            --wb-text: #f7f4eb;                    /* 生成り・無漂白コットンのアイボリー */
+            --wb-highlight: #de6628;               /* カリフォルニアの夕陽（サンセットゴールド） */
         }
 
         * {
@@ -193,9 +198,27 @@
         .staff-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .staff-name { font-size: 11px; font-weight: bold; }
 
-        /* 口コミ */
-        .flow-review-item { position: absolute; background: rgba(17, 17, 17, 0.88); color: #ffffff; padding: 12px 18px; border-radius: 20px; font-size: 12px; line-height: 1.5; box-shadow: 0 8px 24px rgba(0,0,0,0.12); opacity: 0; max-width: 250px; word-break: break-word; }
-        .review-highlight { color: var(--primary-color); font-weight: 700; font-size: 13.5px; display: inline-block; padding: 0 2px; }
+        /* 💡アプデ：口コミの「見た目」をアメリカ西海岸のウォームヴィンテージトーンへハッキング */
+        .flow-review-item { 
+            position: absolute; 
+            background: var(--wb-bg);      /* 墨黒フェードチャコール */
+            color: var(--wb-text);         /* 生成りアイボリー */
+            padding: 12px 18px; 
+            border-radius: 20px; 
+            font-size: 12px; 
+            line-height: 1.5; 
+            box-shadow: 0 8px 24px rgba(38,35,32,0.18); 
+            opacity: 0; 
+            max-width: 250px; 
+            word-break: break-word; 
+        }
+        .review-highlight { 
+            color: var(--wb-highlight);   /* カリフォルニアの夕陽サンセットゴールド */
+            font-weight: 700; 
+            font-size: 13.5px; 
+            display: inline-block; 
+            padding: 0 2px; 
+        }
 
         @keyframes reviewScrollUp {
             0% { transform: translateY(750px) scale(0.95); opacity: 0; }
@@ -392,30 +415,35 @@
     </div>
 
     <script>
-        // ① チノパン用の口コミデータ
+        // 💡復元：元の日本語「高感度ワード」の口コミデータへ100%完全復元
         const reviewsData = [
             { text: "🔥 生地の<span class='review-highlight'>クタッと感</span>がヴィンテージライクで最高！", left: 16, delay: 0 },
             { text: "160cmだけど<span class='review-highlight'>ずるっと</span>穿けて引きずらない絶妙な丈！", right: 16, delay: 0.8 },
             { text: "シャツインしてローファー合わせたら、一気に<span class='review-highlight'>ヨーロッパの空気感</span>！", left: 24, delay: 2.0 },
             { text: "チノパンなのにめちゃくちゃ上品。カジュアルすぎない<span class='review-highlight'>大人のワイド感</span>。", right: 20, delay: 3.2 },
             { text: "アジャスター付きだからウエスト位置で<span class='review-highlight'>丈を調節できる</span>の天才すぎる👏", left: 12, delay: 4.8 },
-            { text: "ガシガシ洗って<span class='review-highlight'>クタクタにして穿く</span>のが今から楽しみ！", right: 24, delay: 6.0 }
+            { text: "ガシガシ洗って<span class='review-highlight'>クタクタにして穿く</span>のが今から楽しみ！", right: 24, delay: 6.0 },
+            { text: "太さがあるのに横に広がらない。<span class='review-highlight'>落ち感が綺麗すぎ</span>ます…", left: 20, delay: 7.2 },
+            { text: "別注ならではのディテール。ボタン一つとっても<span class='review-highlight'>雰囲気ある</span>な〜", right: 14, delay: 8.5 },
+            { text: "絶妙なベージュ。<span class='review-highlight'>古着っぽい色落ち</span>が最高にツボです。🎯", left: 28, delay: 9.8 },
+            { text: "スラックス感覚で穿ける<span class='review-highlight'>ヴィンテージチノ</span>、やっと出会えました。", right: 16, delay: 11.0 },
+            { text: "裾が内側にたまるクッションのおかげで、理想の<span class='review-highlight'>『ずるっと感』</span>が出る！", left: 16, delay: 12.5 },
+            { text: "とにかく<span class='review-highlight'>シルエットが綺麗</span>。色違いのホワイトも追います。笑", right: 24, delay: 13.8 }
         ];
 
-        // ② ジャケットページ専用の口コミデータ
+        // 💡復元：ジャケットページ専用の洗練された日本語の口コミデータへ100%完全復元
         const jacketReviewsData = [
             { text: "金ボタンの贅沢感がこの価格で手に入るのバグすぎる…！✨", left: 16, delay: 0 },
             { text: "トラッドすぎない絶妙なボックスシルエット！羽織るだけでお洒落感でる。", right: 16, delay: 0.8 },
             { text: "さっきのチノパンと合わせたら本当に<span class='review-highlight'>ヨーロッパの空気感</span>になった！最高！", left: 24, delay: 2.0 },
             { text: "軽くてクタッとしたリネンやチノにめちゃくちゃ合います。万能紺ブレ！", right: 20, delay: 3.2 },
             { text: "裏地がシンプルフラットだからガシガシ袖捲りしてラフに着られるの最高👏", left: 12, delay: 4.8 },
-            { text: "158cmでMサイズ、あえてずるっとルーズに着るのが今の気分。🎯", right: 24, delay: 6.0 }
+            { text: "158cmでMサイズ、あえて<span class='review-highlight'>ずるっとルーズに着こなす</span>のが今の気分。🎯", right: 24, delay: 6.0 }
         ];
 
         let isJacketPage = false;
         let jacketReviewsFired = false;
 
-        // 💡本当の基本認証を裏側（functionsフォルダ）に任せたため、ロード完了直後から安全にタイムラインが始まります
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 const summary = document.getElementById('flowSummary');
@@ -578,7 +606,6 @@
             }, 1000);
         }
 
-        /* ジャケットページへの遷移時に、古いチノパン用の想定質問ボタンと口コミをクリア */
         function goToNextProduct() {
             closeDM();
             
@@ -645,7 +672,6 @@
             }
         }
 
-        /* 大団円：2点まとめてカートインする関数 */
         function executeFinalCombinedCartIn() {
             appendMessage("ありがとうございます！ヴィンテージチノと合わせて、こちらのトラッドジャケットもMサイズでまとめてカートに追加しました！合計2点、大切にキープしております。🛒✨", 'agent');
             
