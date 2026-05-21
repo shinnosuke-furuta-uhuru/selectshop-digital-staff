@@ -13,6 +13,8 @@
             --primary-color: #ff5a00; /* クライアント様風のアクセントオレンジ */
             --bg-dark: #121212;
             --text-main: #333333;
+            --text-sub: #666666;
+            --border-light: #eeeeee;
             --glass-bg: rgba(255, 255, 255, 0.9);
             --glass-blur: blur(12px);
         }
@@ -64,9 +66,9 @@
         /* --- ダミーPDP（商品詳細画面）のスタイル --- */
         .pdp-container {
             flex: 1;
-            overflow-y: auto; /* 縦スクロールを有効化 */
+            overflow-y: auto; 
             position: relative;
-            background: #fafafa;
+            background: #ffffff;
         }
 
         .pdp-header {
@@ -75,8 +77,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
-            border-bottom: 1px solid #eeeeee;
+            border-bottom: 1px solid var(--border-light);
             margin-top: 15px;
+            background: #ffffff;
         }
         .brand-logo {
             font-family: 'Bodoni Moda', serif;
@@ -85,46 +88,274 @@
             letter-spacing: 2px;
         }
 
-        /* 修正：商品画像エリアを1st Viewの約80%（580px）に拡大 */
+        /* 商品画像エリア（1st Viewの約80%） */
         .product-image-area {
             width: 100%;
-            height: 580px; 
+            height: 540px; 
             background: #ffffff; 
             position: relative;
         }
 
-        /* 商品情報（画像が大きくなったことで、初期表示では下方に美しく見切れます） */
+        /* --- ⬇新：本家の詳細ページ情報を徹底再現したスタイル --- */
         .product-info {
-            padding: 30px 20px 60px 20px; /* 下部に余白を持たせてスクロール感を演出 */
-        }
-        .product-tag {
-            font-size: 11px;
-            color: var(--primary-color);
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
-        }
-        .product-title {
-            font-size: 18px;
-            font-weight: 700;
-            line-height: 1.4;
-            margin-bottom: 8px;
-        }
-        .product-price {
-            font-size: 16px;
-            font-weight: bold;
-            font-family: 'Bodoni Moda', serif;
-            letter-spacing: 1px;
+            padding: 0 0 100px 0; /* 下部に余白を持たせてスクロール感を演出 */
+            background: #fcfcfc;
         }
 
+        /* 簡単サイズチェック */
+        .size-check-banner {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .size-check-link {
+            border: 1px solid #ffffff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+
+        /* 在庫・カラーセクション */
+        .pdp-section-box {
+            background: #ffffff;
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .color-name-title {
+            font-size: 12px;
+            color: var(--text-sub);
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        .size-stock-chips {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+        .size-stock-chips::-webkit-scrollbar { display: none; }
+        .stock-chip {
+            border: 1px solid #dddddd;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            color: #444444;
+        }
+        .stock-notice {
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-bottom: 15px;
+        }
+
+        /* カラーサムネイルパレット */
+        .color-thumbs-grid {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        .color-thumbs-grid::-webkit-scrollbar { display: none; }
+        .thumb-item {
+            flex: 0 0 52px;
+            text-align: center;
+        }
+        .thumb-img-box {
+            width: 52px;
+            height: 64px;
+            background: #f0f0f0;
+            border-radius: 2px;
+            border: 1px solid #eeeeee;
+            margin-bottom: 6px;
+            position: relative;
+        }
+        /* 選択中の枠 */
+        .thumb-item.active .thumb-img-box {
+            border: 1px solid #111111;
+        }
+        .thumb-img-box::before {
+            content: ""; position: absolute; width: 100%; height: 100%; top:0; left:0;
+            background: linear-gradient(135deg, #e5e0da 0%, #bcbaa9 100%);
+        }
+        .thumb-item:nth-child(2) .thumb-img-box::before { background: #333333; }
+        .thumb-item:nth-child(3) .thumb-img-box::before { background: linear-gradient(135deg, #ebd8cd 0%, #c9b0a1 100%); }
+        .thumb-item:nth-child(4) .thumb-img-box::before { background: #555c4d; }
+        .thumb-item:nth-child(5) .thumb-img-box::before { background: #2e3542; }
+        
+        .thumb-label {
+            font-size: 9px;
+            color: var(--text-sub);
+            transform: scale(0.9);
+            display: block;
+            white-space: nowrap;
+        }
+
+        /* メインの商品タイトル・価格ブロック */
+        .main-meta-box {
+            background: #ffffff;
+            padding: 24px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .meta-brand {
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            color: #111111;
+            margin-bottom: 4px;
+        }
+        .meta-title {
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #111111;
+            margin-bottom: 12px;
+        }
+        .meta-price-row {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .meta-price-tax {
+            font-size: 12px;
+            font-weight: normal;
+            color: var(--text-sub);
+        }
+        .meta-points-delivery {
+            font-size: 11px;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        /* レビュー星評価 */
+        .rating-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f5f5f5;
+            font-size: 12px;
+        }
+        .stars { color: #f59e0b; letter-spacing: -2px; font-size: 14px; }
+        .rating-score { font-weight: bold; }
+        .rating-count { color: var(--text-sub); }
+        .rating-link { color: var(--text-sub); text-decoration: underline; margin-left: auto; }
+
+        /* 配送・返品についての詳細リスト */
+        .shipping-detail-list {
+            background: #ffffff;
+            padding: 16px 20px;
+            font-size: 11.5px;
+            color: #444444;
+            line-height: 1.8;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .shipping-link-span {
+            color: var(--text-sub);
+            text-decoration: underline;
+            margin-left: 4px;
+            cursor: pointer;
+        }
+
+        /* Amazon Pay セクション */
+        .amazon-pay-section {
+            background: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .amazon-logo-box {
+            font-family: 'Bodoni Moda', serif;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 16px;
+            color: #111111;
+            margin-bottom: 8px;
+        }
+        .amazon-logo-box span { color: #ff9900; }
+        .amazon-text {
+            font-size: 11px;
+            color: var(--text-sub);
+            line-height: 1.5;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        /* ページ内のインライン大型ボタン群 */
+        .pdp-inline-actions {
+            background: #ffffff;
+            padding: 24px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .inline-btn-blue {
+            background: #3b82f6;
+            color: #ffffff;
+            width: 100%;
+            border: none;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .inline-btn-outline {
+            background: #ffffff;
+            color: #222222;
+            width: 100%;
+            border: 1px solid #cccccc;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        /* ページ内お気に入り・シェア並び */
+        .pdp-inline-sub-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .inline-sub-btn {
+            flex: 1;
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #444444;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- 固定フッターアクションの制御 --- */
         .pdp-footer-action {
             height: 80px;
             padding: 15px 20px;
-            border-top: 1px solid #eeeeee;
+            border-top: 1px solid var(--border-light);
             display: flex;
             gap: 12px;
             background: #ffffff;
-            z-index: 600; /* 接客レイヤーより上に配置 */
+            z-index: 600; 
         }
         .action-btn-main {
             flex: 1;
@@ -147,12 +378,12 @@
             font-size: 18px;
         }
 
-        /* --- ストリーミング接客レイヤー（画面に対して固定化） --- */
+        /* --- ストリーミング接客レイヤー（画面に固定化） --- */
         .streaming-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; 
-            z-index: 500; /* スクロールしても画面に固定される位置に修正 */
+            z-index: 500; 
         }
 
         /* ① 商品詳細サマリー */
@@ -177,8 +408,8 @@
 
         @keyframes summaryScrollUp {
             0% { transform: translateY(750px); opacity: 0; }
-            15% { transform: translateY(380px); opacity: 1; }  /* 修正：画像が大きくなったので、止まる位置を少し下げて絶妙な位置に配置 */
-            75% { transform: translateY(340px); opacity: 1; }
+            15% { transform: translateY(340px); opacity: 1; }  /* 画像の下方にピタッと綺麗に重なる位置に調整 */
+            75% { transform: translateY(300px); opacity: 1; }
             100% { transform: translateY(-150px); opacity: 0; } 
         }
 
@@ -225,20 +456,20 @@
 
         @keyframes reviewScrollUp {
             0% { transform: translateY(750px) scale(0.95); opacity: 0; }
-            10% { opacity: 1; transform: translateY(580px) scale(1); }
+            10% { opacity: 1; transform: translateY(540px) scale(1); }
             90% { opacity: 1; }
             100% { transform: translateY(-120px) scale(0.95); opacity: 0; }
         }
 
-        /* ③ 想定質問ボタン（画面に固定してフェードイン） */
+        /* ③ 想定質問ボタン */
         .question-container {
             position: absolute;
-            top: 40%; left: 20px; right: 20px;
+            top: 36%; left: 20px; right: 20px;
             display: flex; flex-direction: column; gap: 10px;
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 550; /* 固定レイヤーの前面に配置 */
+            z-index: 550; 
             pointer-events: none;
         }
         .question-container.active {
@@ -324,9 +555,94 @@
             </div>
             
             <div class="product-info">
-                <div class="product-tag">NEW ARRIVAL</div>
-                <h1 class="product-title">VINTAGE CHINO WIDE PANTS</h1>
-                <div class="product-price">¥19,800 <span style="font-size:12px; color:#666;">(inc. tax)</span></div>
+                
+                <div class="size-check-banner">
+                    <span>簡単サイズチェック</span>
+                    <span class="size-check-link">比較する ＞</span>
+                </div>
+
+                <div class="pdp-section-box">
+                    <div class="color-name-title">KHAKI</div>
+                    <div class="size-stock-chips">
+                        <div class="stock-chip">XS / 在庫あり</div>
+                        <div class="stock-chip">S / 在庫あり</div>
+                        <div class="stock-chip" style="background:#f5f5f5; border-style:dashed;">M / 取り寄せ</div>
+                        <div class="stock-chip">L / 在庫あり</div>
+                        <div class="stock-chip">XL / 在庫あり</div>
+                    </div>
+                    <div class="stock-notice">※取り寄せ商品は2〜6日後に発送</div>
+                </div>
+
+                <div class="pdp-section-box">
+                    <div class="color-thumbs-grid">
+                        <div class="thumb-item">
+                            <div class="thumb-img-box"></div>
+                            <span class="thumb-label">CEMENT</span>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="thumb-img-box"></div>
+                            <span class="thumb-label">BLACK</span>
+                        </div>
+                        <div class="thumb-item active">
+                            <div class="thumb-img-box"></div>
+                            <span class="thumb-label" style="font-weight: bold; color:#111;">KHAKI</span>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="thumb-img-box"></div>
+                            <span class="thumb-label">OLIVE</span>
+                        </div>
+                        <div class="thumb-item">
+                            <div class="thumb-img-box"></div>
+                            <span class="thumb-label">NAVY</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-meta-box">
+                    <div class="meta-brand">A-SHOP STANDARD</div>
+                    <h1 class="meta-title">LOOSE WIDE VINTAGE CHINO PANTS</h1>
+                    <div class="meta-price-row">
+                        ¥16,500 <span class="meta-price-tax">(税込)</span>
+                    </div>
+                    <div class="meta-points-delivery">
+                        <span style="color:#e11d48; font-weight: bold;">300ポイント付与</span><br>
+                        送料：330円
+                    </div>
+                    
+                    <div class="rating-box">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-score">4.9</span>
+                        <span class="rating-count">(42)</span>
+                        <span class="rating-link">レビューを見る</span>
+                    </div>
+                </div>
+
+                <div class="shipping-detail-list">
+                    発送：午前11時前までのご注文で最短当日発送 <span class="shipping-link-span">»詳しくはこちら</span><br>
+                    返品：可能 <span class="shipping-link-span">»詳しくはこちら</span><br>
+                    ギフトラッピング：可能 <span class="shipping-link-span">»詳しくはこちら</span><br>
+                    <span style="font-size:10.5px; color:#888;">※クーポン、ポイント付与などの対象外商品です</span>
+                </div>
+
+                <div class="amazon-pay-section">
+                    <div class="amazon-logo-box">amazon <span>pay</span></div>
+                    <div class="amazon-text">
+                        Amazonアカウントでゲスト購入ができます。<br>
+                        <span style="font-size:10px; color:#888;">※取り寄せ注文・予約商品・抽選販売商品など、一部はゲスト購入対象外です。</span><br>
+                        <span style="text-decoration: underline; cursor: pointer; display: inline-block; margin-top: 4px;">» 詳しくはこちら</span>
+                    </div>
+                </div>
+
+                <div class="pdp-inline-actions">
+                    <button class="inline-btn-blue">🛒 カラー・サイズを選択</button>
+                    <button class="inline-btn-outline">📍 店舗在庫・取り置き可能ショップ</button>
+                    
+                    <div class="pdp-inline-sub-actions">
+                        <div class="inline-sub-btn">♡ お気に入り</div>
+                        <div class="inline-sub-btn">⌲ シェアする</div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -400,7 +716,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             // シナリオ開始
             
-            // 1. 1.0秒後：① 商品詳細サマリーがスクロール開始
+            // 1. 2.0秒後：① 商品詳細サマリーがスクロール開始
             setTimeout(() => {
                 const summary = document.getElementById('flowSummary');
                 summary.classList.add('animate');
@@ -409,7 +725,7 @@
                 progress.classList.add('run');
             }, 2000);
 
-            // 2. 6.0秒後：② 12個の口コミが自動緩急スピードで湧き上がる
+            // 2. 7.0秒後：② 12個の口コミが湧き上がる
             setTimeout(() => {
                 const container = document.getElementById('streamingContainer');
                 
