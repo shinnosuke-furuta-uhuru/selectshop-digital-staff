@@ -438,12 +438,12 @@
                     
                     container.appendChild(reviewEl);
                 });
-            }, 6000);
+            }, 30000);
 
             // 3. 口コミがゆっくり流れ切るタイミング（23秒後）に調整して、③ 質問ボタンを表示
             setTimeout(() => {
                 document.getElementById('questionContainer').classList.add('active');
-            }, 50000);
+            }, 23000);
         });
 
         // ④ スタッフDM（AI対話）
