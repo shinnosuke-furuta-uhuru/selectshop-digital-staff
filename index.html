@@ -13,7 +13,7 @@
             --primary-color: #ff5a00; /* クライアント様風のアクセントオレンジ */
             --bg-dark: #121212;
             --text-main: #333333;
-            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-bg: rgba(255, 255, 255, 0.9);
             --glass-blur: blur(12px);
         }
 
@@ -48,7 +48,6 @@
             flex-direction: column;
         }
 
-        /* インカメラのノッチ（iPhone風） */
         .notch {
             position: absolute;
             top: 0;
@@ -70,7 +69,6 @@
             background: #fafafa;
         }
 
-        /* ヘッダー */
         .pdp-header {
             height: 60px;
             display: flex;
@@ -91,24 +89,10 @@
         .product-image-area {
             width: 100%;
             height: 420px;
-            background: #ffffff; /* グレーから白背景に変更 */
+            background: #ffffff; 
             position: relative;
         }
-        /*
-        .product-image-area::before {
-            content: "";
-            position: absolute;
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, #e0dcd3 0%, #bcbaa9 100%);
-        }*/
-        .product-image-area::after {
-            content: "LOOSE WIDE VINTAGE CHINO";
-            position: absolute;
-            bottom: 20px; left: 20px;
-            font-size: 11px; letter-spacing: 3px; color: rgba(255,255,255,0.7);
-        }
 
-        /* 商品情報 */
         .product-info {
             padding: 24px 20px;
         }
@@ -132,7 +116,6 @@
             letter-spacing: 1px;
         }
 
-        /* 固定フッターボタン */
         .pdp-footer-action {
             height: 80px;
             padding: 15px 20px;
@@ -163,312 +146,156 @@
             font-size: 18px;
         }
 
-        /* --- リアル接客再現アニメーションのスタイル --- */
-        
-        /* ① スタッフ感性サマリー（ストーリーズ風） */
-        .stories-overlay {
+        /* --- ⬇新：下から上へ美しく湧き上がるストリーミング接客レイヤー --- */
+        .streaming-container {
             position: absolute;
-            bottom: 90px;
-            left: 12px;
-            right: 12px;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* 下のボタンの邪魔をしない */
+            z-index: 500;
+        }
+
+        /* ① 商品詳細サマリー（画像にOverlayして下から上へ消えていく） */
+        .flow-summary-card {
+            position: absolute;
+            left: 16px; right: 16px;
             background: var(--glass-bg);
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             border-radius: 20px;
-            padding: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transform: translateY(100px);
+            padding: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
             opacity: 0;
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 100;
-        }
-        .stories-overlay.active {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        .stories-progress-bar {
-            width: 100%;
-            height: 3px;
-            background: rgba(0,0,0,0.1);
-            border-radius: 2px;
-            margin-bottom: 12px;
-            overflow: hidden;
-        }
-        .stories-progress-line {
-            height: 100%;
-            width: 0%;
-            background: #111111;
-        }
-        .staff-header {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 10px;
+            flex-direction: column;
+            gap: 10px;
         }
-        .staff-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #bcbaa9;
-            border: 1px solid var(--primary-color);
-        }
-        .staff-name {
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .stories-text {
-            font-size: 14px;
-            line-height: 1.6;
-            font-weight: 400;
-        }
-        .highlight-word {
-            color: var(--primary-color);
-            font-weight: bold;
+        
+        .flow-summary-card.animate {
+            animation: summaryScrollUp 5.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        /* ② 口コミポップアップ（左右にポンポン） */
-        .review-popup {
+        @keyframes summaryScrollUp {
+            0% { transform: translateY(750px); opacity: 0; }
+            15% { transform: translateY(280px); opacity: 1; }  /* 画像の上に重なってじっくり読ませる */
+            75% { transform: translateY(240px); opacity: 1; }
+            100% { transform: translateY(-150px); opacity: 0; } /* 画面の1番上まで突き抜けて消える */
+        }
+
+        .stories-progress-bar {
+            width: 100%; height: 3px; background: rgba(0,0,0,0.08); border-radius: 2px; overflow: hidden;
+        }
+        .stories-progress-line {
+            height: 100%; width: 0%; background: #111111;
+        }
+        .stories-progress-line.run {
+            transition: width 3.5s linear 0.8s; width: 100%;
+        }
+        .staff-header { display: flex; align-items: center; gap: 8px; }
+        .staff-avatar { width: 26px; height: 26px; border-radius: 50%; background: #bcbaa9; border: 1px solid var(--primary-color); }
+        .staff-name { font-size: 11px; font-weight: bold; }
+        .stories-text { font-size: 13.5px; line-height: 1.6; }
+        .highlight-word { color: var(--primary-color); font-weight: bold; }
+
+        /* ② 12個の口コミ（下から上へポンポンと通り抜けていく） */
+        .flow-review-item {
             position: absolute;
-            background: rgba(17, 17, 17, 0.9);
+            background: rgba(17, 17, 17, 0.88);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             color: #ffffff;
-            padding: 10px 14px;
-            border-radius: 15px;
-            font-size: 12px;
-            max-width: 180px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 11.5px;
+            line-height: 1.4;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
             opacity: 0;
-            transform: scale(0.8) translateY(30px);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            z-index: 110;
+            white-space: nowrap;
         }
-        .review-popup.active {
-            opacity: 1;
-            transform: scale(1) translateY(0);
+
+        /* 口コミが下から上へ最後まで抜けていく共通アニメーション */
+        @keyframes reviewScrollUp {
+            0% { transform: translateY(750px) scale(0.9); opacity: 0; }
+            10% { opacity: 1; transform: translateY(600px) scale(1); }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(0.95); opacity: 0; }
         }
-        .review-left { left: 16px; bottom: 250px; }
-        .review-right { right: 16px; bottom: 310px; }
 
         /* ③ 想定質問ボタン（中央付近にフェードイン） */
         .question-container {
             position: absolute;
-            top: 45%;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            top: 42%; left: 20px; right: 20px;
+            display: flex; flex-direction: column; gap: 10px;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.6s ease;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 120;
             pointer-events: none;
         }
         .question-container.active {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
+            opacity: 1; transform: translateY(0); pointer-events: auto;
         }
         .question-btn {
-            background: #ffffff;
-            border: 1px solid #111111;
-            padding: 14px 16px;
-            border-radius: 24px;
-            font-size: 13px;
-            font-weight: bold;
-            text-align: left;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: all 0.2s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #ffffff; border: 1px solid #111111; padding: 14px 16px; border-radius: 24px;
+            font-size: 13px; font-weight: bold; text-align: left; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.2s ease;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .question-btn::after {
-            content: "→";
-            font-family: 'Bodoni Moda', serif;
-            color: var(--primary-color);
-        }
-        .question-btn:hover {
-            background: #111111;
-            color: #ffffff;
-        }
+        .question-btn::after { content: "→"; font-family: 'Bodoni Moda', serif; color: var(--primary-color); }
+        .question-btn:hover { background: #111111; color: #ffffff; }
 
         /* 背景のシームレスな暗転用オーバーレイ */
         .dm-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
-            z-index: 998;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
+            background: rgba(0,0,0,0.4); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
         }
-        .dm-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .dm-overlay.active { opacity: 1; pointer-events: auto; }
 
         /* ④ スタッフDM画面（高さ60%のハーフシート） */
         .dm-layer {
             position: absolute;
-            bottom: 0; left: 0; width: 100%; 
-            height: 60%; 
-            background: #ffffff;
-            z-index: 1000;
-            transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-            border-top-left-radius: 24px;   
-            border-top-right-radius: 24px;
+            bottom: 0; left: 0; width: 100%; height: 60%; 
+            background: #ffffff; z-index: 1000;
+            transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column;
+            border-top-left-radius: 24px; border-top-right-radius: 24px;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
         }
-        .dm-layer.active {
-            transform: translateY(0);
-        }
+        .dm-layer.active { transform: translateY(0); }
+        .sheet-handle { width: 40px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 8px auto 0; }
+        .dm-header { height: 50px; border-bottom: 1px solid #eeeeee; padding: 0 20px 10px 20px; display: flex; align-items: center; gap: 12px; }
+        .dm-back { cursor: pointer; font-size: 18px; }
+        .dm-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: #fafafa; }
         
-        .sheet-handle {
-            width: 40px;
-            height: 4px;
-            background: #e0e0e0;
-            border-radius: 2px;
-            margin: 8px auto 0;
-        }
-
-        .dm-header {
-            height: 50px;
-            border-bottom: 1px solid #eeeeee;
-            padding: 0 20px 10px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .dm-back {
-            cursor: pointer;
-            font-size: 18px;
-        }
-        .dm-body {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            background: #fafafa;
-        }
         .msg {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 13px;
-            line-height: 1.5;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 13px; line-height: 1.5;
+            opacity: 0; transform: translateY(10px); animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
         }
+        @webkit-keyframes msgFadeIn { to { opacity: 1; transform: translateY(0); } }
         @keyframes msgFadeIn { to { opacity: 1; transform: translateY(0); } }
         
-        .msg.user {
-            background: #111111;
-            color: #ffffff;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-        .msg.agent {
-            background: #ffffff;
-            color: var(--text-main);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
+        .msg.user { background: #111111; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .msg.agent { background: #ffffff; color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 
-        /* DM内のスタイリング画像のカルーセルスタイル */
         .dm-carousel {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 4px 0;
-            width: 100%;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1) 0.4s; /* テキストの少し後にフワッと出る */
+            display: flex; gap: 10px; overflow-x: auto; padding: 4px 0; width: 100%; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+            opacity: 0; transform: translateY(10px); animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
         }
-        /* スクロールバーを非表示に（お洒落さ最優先） */
-        .dm-carousel::-webkit-scrollbar {
-            display: none;
-        }
-        .dm-carousel-item {
-            flex: 0 0 120px;
-            height: 160px;
-            border-radius: 12px;
-            scroll-snap-align: start;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .dm-carousel-item::before {
-            content: "";
-            position: absolute;
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, #d3cecd 0%, #bcbaa9 100%);
-        }
-        .dm-carousel-item:nth-child(2)::before {
-            background: linear-gradient(135deg, #bcbaa9 0%, #a1a092 100%);
-        }
-        .dm-carousel-item:nth-child(3)::before {
-            background: linear-gradient(135deg, #a1a092 0%, #7d7c70 100%);
-        }
-        .dm-carousel-item::after {
-            content: "STYLE";
-            position: absolute;
-            bottom: 8px; left: 8px;
-            font-size: 9px; font-weight: bold; color: #fff;
-            background: rgba(0,0,0,0.3);
-            padding: 2px 6px;
-            border-radius: 4px;
-            letter-spacing: 1px;
-        }
+        .dm-carousel::-webkit-scrollbar { display: none; }
+        .dm-carousel-item { flex: 0 0 120px; height: 160px; border-radius: 12px; scroll-snap-align: start; position: relative; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .dm-carousel-item::before { content: ""; position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #d3cecd 0%, #bcbaa9 100%); }
+        .dm-carousel-item:nth-child(2)::before { background: linear-gradient(135deg, #bcbaa9 0%, #a1a092 100%); }
+        .dm-carousel-item:nth-child(3)::before { background: linear-gradient(135deg, #a1a092 0%, #7d7c70 100%); }
+        .dm-carousel-item::after { content: "STYLE"; position: absolute; bottom: 8px; left: 8px; font-size: 9px; font-weight: bold; color: #fff; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; letter-spacing: 1px; }
         .dm-carousel-item:nth-child(1)::after { content: "158cm / M"; }
         .dm-carousel-item:nth-child(2)::after { content: "162cm / M"; }
         .dm-carousel-item:nth-child(3)::after { content: "153cm / S"; }
         
-        /* ネオンカートインボタン */
-        .dm-footer-action {
-            padding: 15px 20px 25px 20px;
-            background: #ffffff;
-            border-top: 1px solid #eeeeee;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
-        }
-        .dm-footer-action.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .neon-cart-btn {
-            width: 100%;
-            background: #111111;
-            color: #ffffff;
-            border: none;
-            padding: 16px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            position: relative;
-            box-shadow: 0 0 0px #ffffff;
-            transition: all 0.3s ease;
-        }
-        .neon-cart-btn.glow {
-            animation: neonPulse 2s infinite alternate;
-        }
-        @keyframes neonPulse {
-            0% { box-shadow: 0 0 4px #fff, 0 0 10px var(--primary-color); }
-            100% { box-shadow: 0 0 8px #fff, 0 0 20px var(--primary-color); }
-        }
+        .dm-footer-action { padding: 15px 20px 25px 20px; background: #ffffff; border-top: 1px solid #eeeeee; opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+        .dm-footer-action.active { opacity: 1; transform: translateY(0); }
+        .neon-cart-btn { width: 100%; background: #111111; color: #ffffff; border: none; padding: 16px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; position: relative; box-shadow: 0 0 0px #ffffff; transition: all 0.3s ease; }
+        .neon-cart-btn.glow { animation: neonPulse 2s infinite alternate; }
+        @keyframes neonPulse { 0% { box-shadow: 0 0 4px #fff, 0 0 10px var(--primary-color); } 100% { box-shadow: 0 0 8px #fff, 0 0 20px var(--primary-color); } }
     </style>
 </head>
 <body>
@@ -478,13 +305,13 @@
 
         <div class="pdp-container">
             <div class="pdp-header">
-                <span class="dm-back">⚙</span>
+                <span class="brand-logo" style="font-size: 12px; font-weight: 300;">← BACK</span>
                 <span class="brand-logo">A-SHOP STANDARD</span>
                 <span>🛒</span>
             </div>
             
             <div class="product-image-area">
-                <img src="./img/green.jpg" alt="product" style="width: 100%; height: 100%; object-fit: contain;">
+                <img src="./pants.jpg" alt="product" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
             
             <div class="product-info">
@@ -493,24 +320,21 @@
                 <div class="product-price">¥19,800 <span style="font-size:12px; color:#666;">(inc. tax)</span></div>
             </div>
             
-            <div class="stories-overlay" id="storiesOverlay">
-                <div class="stories-progress-bar">
-                    <div class="stories-progress-line" id="progressLine"></div>
+            <div class="streaming-container" id="streamingContainer">
+                
+                <div class="flow-summary-card" id="flowSummary">
+                    <div class="stories-progress-bar">
+                        <div class="stories-progress-line" id="progressLine"></div>
+                    </div>
+                    <div class="staff-header">
+                        <div class="staff-avatar"></div>
+                        <div class="staff-name">HIKARI (158cm) | RECOMMEND</div>
+                    </div>
+                    <div class="stories-text">
+                        ウエストをあえて落として、<span class="highlight-word">ずるっと履く</span>のが今年の一番の推しスタイル。この<span class="highlight-word">クタッと感が最高</span>なんです。
+                    </div>
                 </div>
-                <div class="staff-header">
-                    <div class="staff-avatar"></div>
-                    <div class="staff-name">HIKARI (158cm)</div>
-                </div>
-                <div class="stories-text">
-                    ウエストをあえて落として、<span class="highlight-word">ずるっと履く</span>のが今年の一番の推しスタイル。この<span class="highlight-word">クタッと感が最高</span>なんです。
-                </div>
-            </div>
 
-            <div class="review-popup review-left" id="review1">
-                🔥 生地のクタッと感がヴィンテージライクで最高！
-            </div>
-            <div class="review-popup review-right" id="review2">
-                160cmだけど<span class="highlight-word">ずるっと</span>穿けて引きずらない絶妙な丈！
             </div>
 
             <div class="question-container" id="questionContainer">
@@ -543,8 +367,7 @@
                     <div style="font-size:11px; color:#22c55e;">● オンライン接客中</div>
                 </div>
             </div>
-            <div class="dm-body" id="dmBody">
-                </div>
+            <div class="dm-body" id="dmBody"></div>
             <div class="dm-footer-action" id="dmFooter">
                 <button class="neon-cart-btn glow">このサイズ（M）をカートに入れる</button>
             </div>
@@ -552,70 +375,90 @@
     </div>
 
     <script>
+        // クライアントのカルチャーに刺さる厳選12個の高感度な口コミデータ
+        const reviewsData = [
+            { text: "🔥 生地のクタッと感がヴィンテージライクで最高！", left: 16, delay: 0 },
+            { text: "160cmだけどずるっと穿けて引きずらない絶妙な丈！", right: 16, delay: 0.5 },
+            { text: "シャツインしてローファー合わせたら、一気にヨーロッパの空気感！", left: 24, delay: 1.2 },
+            { text: "チノパンなのにめちゃくちゃ上品。カジュアルすぎない大人のワイド感。", right: 20, delay: 1.8 },
+            { text: "アジャスター付きだからウエスト位置で丈を調節できるの天才すぎる👏", left: 12, delay: 2.5 },
+            { text: "ガシガシ洗ってクタクタにして穿くのが今から楽しみ！", right: 30, delay: 3.2 },
+            { text: "太さがあるのに横に広がらない。落ち感が綺麗すぎます…", left: 20, delay: 3.8 },
+            { text: "別注ならではのディテール。ボタン一つとっても雰囲気あるな〜", right: 14, delay: 4.5 },
+            { text: "絶妙なベージュ。古着っぽい色落ちが最高にツボです。🎯", left: 32, delay: 5.0 },
+            { text: "スラックス感覚で穿けるヴィンテージチノ、やっと出会えました。", right: 16, delay: 5.6 },
+            { text: "裾が内側にたまるクッションのおかげで、理想の『ずるっと感』が出る！", left: 16, delay: 6.2 },
+            { text: "とにかくシルエットが綺麗。色違いのホワイトも追います。笑", right: 24, delay: 6.8 }
+        ];
+
         document.addEventListener('DOMContentLoaded', () => {
             // シナリオ開始
+            
+            // 1. 1.0秒後：① 商品詳細サマリーが下から一番上へスクロール開始
             setTimeout(() => {
-                const overlay = document.getElementById('storiesOverlay');
-                overlay.classList.add('active');
+                const summary = document.getElementById('flowSummary');
+                summary.classList.add('animate');
                 
                 const progress = document.getElementById('progressLine');
-                progress.style.transition = 'width 3s linear';
-                progress.style.width = '100%';
-            }, 1500);
+                progress.classList.add('run');
+            }, 1000);
 
+            // 2. 5.5秒後（サマリーが上に抜け始めるタイミング）：② 12個の口コミが次々と下から湧き上がる
             setTimeout(() => {
-                document.getElementById('review1').classList.add('active');
-            }, 4500);
-            
-            setTimeout(() => {
-                document.getElementById('review2').classList.add('active');
-                document.getElementById('storiesOverlay').style.opacity = '0';
-            }, 5300);
+                const container = document.getElementById('streamingContainer');
+                
+                reviewsData.forEach((data, index) => {
+                    const reviewEl = document.createElement('div');
+                    reviewEl.classList.add('flow-review-item');
+                    reviewEl.innerHTML = data.text;
+                    
+                    // 左右の配置設定
+                    if (data.left) reviewEl.style.left = `${data.left}px`;
+                    if (data.right) reviewEl.style.right = `${data.right}px`;
+                    
+                    // 流れる速度と出現タイミングをコントロール
+                    reviewEl.style.animation = `reviewScrollUp 4.5s cubic-bezier(0.25, 1, 0.5, 1) forwards`;
+                    reviewEl.style.animationDelay = `${data.delay}s`;
+                    
+                    container.appendChild(reviewEl);
+                });
+            }, 5500);
 
+            // 3. 14.5秒後（すべての口コミが上に流れきった後）：③ 想定質問ボタンがフェードイン
             setTimeout(() => {
-                document.getElementById('review1').style.opacity = '0';
-                document.getElementById('review2').style.opacity = '0';
                 document.getElementById('questionContainer').classList.add('active');
-            }, 7500);
+            }, 14500);
         });
 
         // ④ スタッフDM（AI対話 ＋ カールセル画像挿入）
         function startDM(userQuestion) {
             const dmLayer = document.getElementById('dmLayer');
             const dmOverlay = document.getElementById('dmOverlay');
-            const dmBody = document.getElementById('dmBody');
             
             dmLayer.classList.add('active');
             dmOverlay.classList.add('active');
 
-            // 1. ユーザーの質問をプロット
             appendMessage(userQuestion, 'user');
 
-            // 2. 1.2秒後にスタッフAgentが回答
             setTimeout(() => {
                 let agentReply = "";
                 let showCarousel = false;
 
                 if(userQuestion.includes('引きずりませんか')) {
-                    agentReply = "めちゃくちゃ分かります！でも安心してください。このチノ、裾が少し内側にたまる（クッションになる）計算されたシルエットなんです。厚底スニーカーや3cmくらいのヒールを合わせてもらえれば、地面にはギリギリつかずに、理想の『ずるっと感』が出ますよ！実際のスタッフの着こなしもカルーセルで並べておきますね。";
-                    showCarousel = true; // この質問の時はスタイリング画像カルーセルを見せる
+                    agentReply = "めちゃくちゃ分かります！でも安心してください。このチノ、裾が少し内側にたまる（クッションになる）計算されたシルエットなんです。厚底スニーカーや3cmくらいのヒールを合わせてもらえれば、地面にはギリギリつかずに、理想の『ずるっと感』が出ますよ！実際のスタッフの着こなしも並べておきますね。";
+                    showCarousel = true;
                 } else if(userQuestion.includes('経年変化')) {
                     agentReply = "この生地、穿き込むほどにさらに『クタッと感』が増して、自分だけのヴィンテージに育つんです。ガシガシ洗って、クタクタにして穿くのが最高にカッコいいですよ！";
                 } else {
                     agentReply = "あえてトップスに綺麗めなフレンチリネンのシャツを合わせて、足元をローファーで締めるのがおすすめ。それだけで一気に『ヨーロッパの空気感』を纏った、洗練されたチノスタイルが完成します！";
                 }
                 
-                // テキストメッセージ出力
                 appendMessage(agentReply, 'agent');
                 
-                // カルーセル画像の動的挿入（リアル接客の流れを再現）
                 if(showCarousel) {
-                    setTimeout(() => {
-                        appendCarousel();
-                    }, 600);
+                    setTimeout(() => { appendCarousel(); }, 600);
                 }
                 
-                // ボタンの表示タイミングを少しずらしてカルーセルの後に綺麗に収める
                 setTimeout(() => {
                     document.getElementById('dmFooter').classList.add('active');
                 }, 1200);
@@ -632,13 +475,11 @@
             dmBody.scrollTop = dmBody.scrollHeight;
         }
 
-        // 接客カルーセルを動的に生成してタイムラインに流す関数
         function appendCarousel() {
             const dmBody = document.getElementById('dmBody');
             const carouselDiv = document.createElement('div');
             carouselDiv.classList.add('dm-carousel');
             
-            // ダミーのカードを3つ生成
             for(let i=0; i<3; i++) {
                 const item = document.createElement('div');
                 item.classList.add('dm-carousel-item');
