@@ -430,8 +430,8 @@
                     // 修正：流れるスピードの自動緩急ルール
                     // タグ（span等）を除いた純粋な文字数を計算
                     const plainTextLen = data.text.replace(/<[^>]*>/g, '').length;
-                    // 基本速度を7秒と遅くし、文字数が多い（長いコメント）ほど、さらに長く画面に滞在させる
-                    const duration = 7 + (plainTextLen * 0.15); 
+                    // 基本速度をx秒と遅くし、文字数が多い（長いコメント）ほど、さらに長く画面に滞在させる
+                    const duration = 10 + (plainTextLen * 0.15); 
                     
                     reviewEl.style.animation = `reviewScrollUp ${duration}s cubic-bezier(0.22, 1, 0.36, 1) forwards`;
                     reviewEl.style.animationDelay = `${data.delay}s`;
