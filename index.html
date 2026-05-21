@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEMO | SELECT SHOP NEXT PDP</title>
+    <title>B-SHOP SELECTION</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital@1&family=Noto+Sans+JP:wght@300;400;700&family=Caveat&display=swap" rel="stylesheet">
@@ -181,7 +181,14 @@
             position: absolute; bottom: 0; left: 0; width: 100%; height: 72%; background: #ffffff; z-index: 1000; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; border-top-left-radius: 24px; border-top-right-radius: 24px; box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
         }
         .dm-layer.active { transform: translateY(0); }
-        .sheet-handle { width: 40px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 8px auto 0; }
+        
+        /* 💡最小化状態（ヘッダーの50pxだけ最下部に見残す） */
+        .dm-layer.active.minimized {
+            transform: translateY(calc(100% - 54px));
+            cursor: pointer;
+        }
+
+        .sheet-handle { width: 40px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 8px auto 0; cursor: pointer; }
         
         .dm-header { height: 50px; border-bottom: 1px solid #eeeeee; padding: 0 20px 10px 20px; display: flex; align-items: center; gap: 12px; }
         .dm-back { cursor: pointer; font-size: 18px; }
@@ -207,40 +214,12 @@
         .dm-carousel-item img { width: 100%; height: 100%; object-fit: cover; }
         .dm-carousel-item::after { content: attr(data-label); position: absolute; bottom: 8px; left: 8px; font-size: 9px; font-weight: bold; color: #fff; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; letter-spacing: 1px; }
 
-        /* 💡新設：チャット内に美しく流れる「タップ可能な商品画像カード」 */
+        /* チャット内に美しく流れるタップ可能な商品画像カード */
         .dm-product-link-card {
-            width: 160px;
-            height: 220px;
-            background: #ffffff;
-            border: 1px solid #eeeeee;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            cursor: pointer;
-            align-self: flex-start;
-            margin-left: 32px; /* アイコン幅に揃える */
-            opacity: 0;
-            transform: translateY(10px);
-            animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            pointer-events: auto;
-            flex-shrink: 0;
+            width: 160px; height: 220px; background: #ffffff; border: 1px solid #eeeeee; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); cursor: pointer; align-self: flex-start; margin-left: 32px; opacity: 0; transform: translateY(10px); animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1); position: relative; pointer-events: auto; flex-shrink: 0;
         }
-        .dm-product-link-card img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-        .dm-product-link-card::after {
-            content: "このジャケットを見る ➔";
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            background: rgba(17, 17, 17, 0.85);
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: bold;
-            text-align: center;
-            padding: 8px 0;
-            letter-spacing: 0.5px;
-        }
+        .dm-product-link-card img { width: 100%; height: 100%; object-fit: cover; }
+        .dm-product-link-card::after { content: "このジャケットを見る ➔"; position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(17, 17, 17, 0.85); color: #ffffff; font-size: 11px; font-weight: bold; text-align: center; padding: 8px 0; letter-spacing: 0.5px; }
 
         /* 自由チャット入力UI */
         .dm-input-area { padding: 12px 20px; border-top: 1px solid #eeeeee; background: #ffffff; display: flex; gap: 10px; align-items: center; z-index: 1100; }
@@ -352,8 +331,8 @@
 
         <div class="dm-overlay" id="dmOverlay" onclick="closeDM()"></div>
 
-        <div class="dm-layer" id="dmLayer">
-            <div class="sheet-handle"></div>
+        <div class="dm-layer" id="dmLayer" onclick="maximizeDM()">
+            <div class="sheet-handle" onclick="minimizeDM(event)"></div>
             <div class="dm-header">
                 <span class="dm-back" onclick="closeDM()">←</span>
                 <div class="staff-avatar"><img src="./hikari.jpg" onerror="this.src='https://i.pravatar.cc/100?img=32'"></div>
@@ -376,20 +355,29 @@
     </div>
 
     <script>
+        // ① チノパン用の口コミデータ
         const reviewsData = [
             { text: "🔥 生地の<span class='review-highlight'>クタッと感</span>がヴィンテージライクで最高！", left: 16, delay: 0 },
             { text: "160cmだけど<span class='review-highlight'>ずるっと</span>穿けて引きずらない絶妙な丈！", right: 16, delay: 0.8 },
             { text: "シャツインしてローファー合わせたら、一気に<span class='review-highlight'>ヨーロッパの空気感</span>！", left: 24, delay: 2.0 },
             { text: "チノパンなのにめちゃくちゃ上品。カジュアルすぎない<span class='review-highlight'>大人のワイド感</span>。", right: 20, delay: 3.2 },
             { text: "アジャスター付きだからウエスト位置で<span class='review-highlight'>丈を調節できる</span>の天才すぎる👏", left: 12, delay: 4.8 },
-            { text: "ガシガシ洗って<span class='review-highlight'>クタクタにして穿く</span>のが今から楽しみ！", right: 24, delay: 6.0 },
-            { text: "太さがあるのに横に広がらない。<span class='review-highlight'>落ち感が綺麗すぎ</span>ます…", left: 20, delay: 7.2 },
-            { text: "別注ならではのディテール. ボタン一つとっても<span class='review-highlight'>雰囲気ある</span>な〜", right: 14, delay: 8.5 },
-            { text: "絶妙なベージュ。<span class='review-highlight'>古着っぽい色落ち</span>が最高にツボです。🎯", left: 28, delay: 9.8 },
-            { text: "スラックス感覚で穿ける<span class='review-highlight'>ヴィンテージチノ</span>、やっと出会えました。", right: 16, delay: 11.0 },
-            { text: "裾が内側にたまるクッションのおかげで、理想の<span class='review-highlight'>『ずるっと感』</span>が出る！", left: 16, delay: 12.5 },
-            { text: "とにかく<span class='review-highlight'>シルエットが綺麗</span>。色違いのホワイトも追います。笑", right: 24, delay: 13.8 }
+            { text: "ガシガシ洗って<span class='review-highlight'>クタクタにして穿く</span>のが今から楽しみ！", right: 24, delay: 6.0 }
         ];
+
+        // 💡新設：② ジャケットページ専用の口コミデータ
+        const jacketReviewsData = [
+            { text: "金ボタンの贅沢感がこの価格で手に入るのバグすぎる…！✨", left: 16, delay: 0 },
+            { text: "トラッドすぎない絶妙なボックスシルエット！羽織るだけでお洒落感でる。", right: 16, delay: 0.8 },
+            { text: "さっきのチノパンと合わせたら本当に<span class='review-highlight'>ヨーロッパの空気感</span>になった！最高！", left: 24, delay: 2.0 },
+            { text: "軽くてクタッとしたリネンやチノにめちゃくちゃ合います。万能紺ブレ！", right: 20, delay: 3.2 },
+            { text: "裏地がシンプルフラットだからガシガシ袖捲りしてラフに着られるの最高👏", left: 12, delay: 4.8 },
+            { text: "158cmでMサイズ、あえてずるっとルーズに着るのが今の気分。🎯", right: 24, delay: 6.0 }
+        ];
+
+        // デモシナリオ用のステート管理フラグ
+        let isJacketPage = false;
+        let jacketReviewsFired = false;
 
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
@@ -403,7 +391,7 @@
                 const container = document.getElementById('streamingContainer');
                 reviewsData.forEach((data, index) => {
                     const reviewEl = document.createElement('div');
-                    reviewEl.classList.add('flow-review-item');
+                    reviewEl.classList.add('flow-review-item'); // 修正：タイポエラーを完全に排除
                     reviewEl.innerHTML = data.text;
                     if (data.left) reviewEl.style.left = `${data.left}px`;
                     if (data.right) reviewEl.style.right = `${data.right}px`;
@@ -423,7 +411,6 @@
         function startDM(userQuestion) {
             document.getElementById('dmLayer').classList.add('active');
             document.getElementById('dmOverlay').classList.add('active');
-            
             document.querySelector('.pdp-container').style.overflow = 'hidden';
             
             appendMessage(userQuestion, 'user');
@@ -433,7 +420,7 @@
                 let showCarousel = false;
 
                 if(userQuestion.includes('引きずりませんか')) {
-                    agentReply = "めちゃくちゃ分かります！でも安心してください。このチノ、裾が少し内側にたまる（クッションになる）計算されたシルエットなんです。厚底スニーカーや3cmくらいのヒールを合わせてもらえれば、地面にはギリギリつかずに、理想 of 『ずるっと感』が出ますよ！実際のスタッフの着こなしも並べておきますね。";
+                    agentReply = "めちゃくちゃ分かります！でも安心してください。このチノ、裾が少し内側にたまる（クッションになる）計算されたシルエットなんです。厚底スニーカーや3cmくらいのヒールを合わせてもらえれば、地面にはギリギリつかずに、理想の『ずるっと感』が出ますよ！実際のスタッフの着こなしも並べておきますね。";
                     showCarousel = true;
                 } else if(userQuestion.includes('経年変化')) {
                     agentReply = "この生地、穿き込むほどにさらに『クタッと感』が増して、自分だけのヴィンテージに育つんです。ガシガシ洗って、クタクタにして穿くのが最高にカッコいいですよ！";
@@ -497,7 +484,6 @@
             }, 1000);
         }
 
-        /* 💡画像リンクカードを動的に生成して流すロジックへの差し替え */
         function executeCartInFromChat() {
             document.getElementById('headerCart').innerHTML = "🛒<span style='font-size:10px; color:#ffffff; background:var(--primary-color); border-radius:50%; width:15px; height:15px; display:flex; justify-content:center; align-items:center; position:absolute; top:-4px; right:-6px; font-weight:bold;'>1</span>";
             
@@ -509,9 +495,8 @@
             appendMessage("はい、カートに入れます。", 'user');
             
             setTimeout(() => {
-                appendMessage("チノパン、しっかりキープ（カートイン）してお記しました！👍 では、スタイリングで着用していた『ネイビートラッドジャケット』のページへご案内しますね！カードをタップするとページへ移動します。", 'agent');
+                appendMessage("チノパン、しっかりキープ（カートイン）しておきました！👍 では、スタイリングで着用していた『ネイビートラッドジャケット』のページへご案内しますね！カードをタップするとページへ移動します。", 'agent');
                 
-                // 💡テキストボタンを「画像付きリンクカード」に完全差し替え
                 setTimeout(() => {
                     const dmBody = document.getElementById('dmBody');
                     const imgCard = document.createElement('div');
@@ -549,22 +534,22 @@
             }, 1000);
         }
 
-        /* 💡擬似遷移ロジックの画像パスを、アップロード済みの「./img/jacket01.jpg」に完全同期 */
         function goToNextProduct() {
             closeDM();
             const pdp = document.getElementById('pdpContainer');
-            pdp.style.opacity = '0';
+            pdp.style.opacity = '0'; 
             
             setTimeout(() => {
-                // 💡遷移先の商品画像パスを「./img/jacket01.jpg」に変更
+                // 遷移先の情報をジャケット情報へ書き換え
                 document.getElementById('pdpImage').src = './img/jacket01.jpg';
                 document.getElementById('pdpTitle').innerText = 'NAVY TRAD BLAZER JACKET';
                 document.getElementById('pdpPrice').innerHTML = '¥38,500 <span class="meta-price-tax">(税込)</span>';
                 document.getElementById('colorTitle').innerText = 'NAVY';
                 document.getElementById('colorLabel').innerText = 'NAVY';
                 
-                pdp.style.opacity = '1';
-                
+                pdp.style.opacity = '1'; 
+                isJacketPage = true; // 💡ジャケットページに切り替わったフラグ
+
                 setTimeout(() => {
                     document.getElementById('dmLayer').classList.add('active');
                     document.getElementById('dmOverlay').classList.add('active');
@@ -577,7 +562,9 @@
                     footerBtn.style.background = "#111111";
                     footerBtn.classList.add('glow');
                     
-                    footerBtn.onclick = () => {
+                    // 2点まとめての最終カートイン
+                    footerBtn.onclick = (e) => {
+                        e.stopPropagation(); // 最大化イベントの巻き込みをガード
                         footerBtn.innerText = "2点まとめてカートに追加しました！🛒";
                         footerBtn.style.background = "#22c55e";
                         footerBtn.classList.remove('glow');
@@ -588,6 +575,56 @@
                 }, 1500);
 
             }, 400);
+        }
+
+        /* 💡新設：シートハンドル（横棒）タップ時の「下に最小化」制御ロジック */
+        function minimizeDM(event) {
+            if (event) event.stopPropagation(); // 最大化イベントの暴発を防ぐ
+            
+            const dmLayer = document.getElementById('dmLayer');
+            const dmOverlay = document.getElementById('dmOverlay');
+            
+            dmLayer.classList.add('minimized');
+            dmOverlay.classList.remove('active'); // 背景の暗転を一時解除
+            document.querySelector('.pdp-container').style.overflow = 'auto'; // スクロール一時解禁
+            
+            // 💡ジャケットページかつ、まだジャケットの口コミを流していなければストリーミング開始
+            if (isJacketPage && !jacketReviewsFired) {
+                fireJacketReviews();
+            }
+        }
+
+        /* 💡新設：最小化シートタップ時の「大きく大画面に戻る」最大化ロジック */
+        function maximizeDM() {
+            const dmLayer = document.getElementById('dmLayer');
+            if (dmLayer.classList.contains('minimized')) {
+                dmLayer.classList.remove('minimized');
+                document.getElementById('dmOverlay').classList.add('active'); // 暗転復活
+                document.querySelector('.pdp-container').style.overflow = 'hidden'; // 背景スクロールロック
+            }
+        }
+
+        /* 💡新設：ジャケット専用の口コミ6選を動的にストリーミング注入する関数 */
+        function fireJacketReviews() {
+            jacketReviewsFired = true;
+            const container = document.getElementById('streamingContainer');
+            
+            jacketReviewsData.forEach((data, index) => {
+                const reviewEl = document.createElement('div');
+                reviewEl.classList.add('flow-review-item');
+                reviewEl.innerHTML = data.text;
+                
+                if (data.left) reviewEl.style.left = `${data.left}px`;
+                if (data.right) reviewEl.style.right = `${data.right}px`;
+                
+                const plainTextLen = data.text.replace(/<[^>]*>/g, '').length;
+                const duration = 15 + (plainTextLen * 0.15); 
+                
+                reviewEl.style.animation = `reviewScrollUp ${duration}s cubic-bezier(0.22, 1, 0.36, 1) forwards`;
+                reviewEl.style.animationDelay = `${data.delay}s`;
+                
+                container.appendChild(reviewEl);
+            });
         }
 
         function appendMessage(text, sender) {
@@ -639,6 +676,7 @@
 
         function closeDM() {
             document.getElementById('dmLayer').classList.remove('active');
+            document.getElementById('dmLayer').classList.remove('minimized');
             document.getElementById('dmOverlay').classList.remove('active');
             document.getElementById('dmBody').innerHTML = '';
             document.getElementById('dmFooter').classList.remove('active');
