@@ -65,6 +65,83 @@
             z-index: 9999;
         }
 
+        /* 💡新設：ショップの世界観を崩さないスタイリッシュな基本認証画面 */
+        .auth-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            z-index: 10000; /* 全ての一番上に重ねる */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 30px;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .auth-overlay.hide {
+            opacity: 0;
+            transform: scale(1.05);
+            pointer-events: none;
+        }
+        .auth-logo {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .auth-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .auth-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .auth-field label {
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--text-sub);
+            letter-spacing: 1px;
+        }
+        .auth-field input {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            background: #fdfdfd;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .auth-field input:focus {
+            border-color: var(--primary-color);
+        }
+        .auth-btn {
+            background: #111111;
+            color: #ffffff;
+            border: none;
+            padding: 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 10px;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+        .auth-error {
+            font-size: 11px;
+            color: #ef4444;
+            font-weight: bold;
+            text-align: center;
+            min-height: 16px;
+            margin-top: 10px;
+        }
+
         /* --- ダミーPDP --- */
         .pdp-container {
             flex: 1;
@@ -229,10 +306,10 @@
         .agent-mini-avatar { width: 24px; height: 24px; border-radius: 50%; background: #eee; flex-shrink: 0; overflow: hidden; border: 1px solid #ddd; }
         .agent-mini-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* 吹き出しのベースアニメーション（💡 opacity: 0 からフェードインさせる定義） */
+        /* 吹き出しのベースアニメーション */
         .msg { padding: 12px 16px; border-radius: 18px; font-size: 13px; line-height: 1.5; opacity: 0; transform: translateY(10px); animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1); }
         
-        /* 💡大復元：失われていた吹き出し出現アニメーションのKeyframesを完全復活！ */
+        /* 吹き出し出現アニメーションのKeyframes */
         @keyframes msgFadeIn { 
             to { opacity: 1; transform: translateY(0); } 
         }
@@ -254,7 +331,7 @@
         .dm-product-link-card img { width: 100%; height: 100%; object-fit: cover; }
         .dm-product-link-card::after { content: "このジャケットを見る ➔"; position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(17, 17, 17, 0.85); color: #ffffff; font-size: 11px; font-weight: bold; text-align: center; padding: 8px 0; letter-spacing: 0.5px; }
 
-        /* チャット入力UI（💡スマホ横幅いっぱいにフィット） */
+        /* チャット入力UI */
         .dm-input-area { padding: 12px 20px; border-top: 1px solid #eeeeee; background: #ffffff; display: flex; gap: 10px; align-items: center; z-index: 1100; width: 100%; }
         .dm-input-area input { flex: 1; border: 1px solid #eeeeee; background: #f8f8f8; padding: 10px 16px; border-radius: 20px; font-size: 13px; outline: none; }
         .dm-send-btn { color: var(--primary-color); font-weight: bold; font-size: 14px; cursor: pointer; }
@@ -270,6 +347,22 @@
 
     <div class="phone-wrapper">
         <div class="notch"></div>
+
+        <div class="auth-overlay" id="authOverlay">
+            <div class="auth-logo">B-SHOP SELECTION</div>
+            <div class="auth-form">
+                <div class="auth-field">
+                    <label for="username">USER ID</label>
+                    <input type="text" id="username" placeholder="ユーザーIDを入力" autocomplete="off">
+                </div>
+                <div class="auth-field">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" id="password" placeholder="パスワードを入力">
+                </div>
+                <button class="auth-btn" onclick="checkAuth()">SIGN IN</button>
+                <div class="auth-error" id="authError"></div>
+            </div>
+        </div>
 
         <div class="pdp-container" id="pdpContainer">
             <div class="pdp-header">
@@ -361,7 +454,7 @@
         </div>
 
         <div class="question-container" id="questionContainer">
-            <button class="question-btn" onclick="startDM('ずるっと履くと、地面に引きずりませんか？')">ずるっと履くと、地面に引きずりませんか？</button>
+            <button class="question-btn" onclick="startDM('ずるっと履くと、地面に引きずりませんか？')">ずるっと履くと、地面に引きずりませんか?</button>
             <button class="question-btn" onclick="startDM('クタッと感の経年変化はどんな感じ？')">クタッと感の経年変化はどんな感じ？</button>
             <button class="question-btn" onclick="startDM('ヨーロッパの空気感を出す着こなしは？')">ヨーロッパの空気感を出す着こなしは？</button>
         </div>
@@ -412,11 +505,34 @@
             { text: "158cmでMサイズ、あえてずるっとルーズに着るのが今の気分。🎯", right: 24, delay: 6.0 }
         ];
 
-        // デモシナリオ用のステート管理フラグ
         let isJacketPage = false;
         let jacketReviewsFired = false;
 
-        document.addEventListener('DOMContentLoaded', () => {
+        /* 💡新設：認証情報のチェック関数 */
+        function checkAuth() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const errorEl = document.getElementById('authError');
+
+            // デモ用のIDとパスワードを設定
+            if (user === 'bshop' && pass === 'next') {
+                errorEl.innerText = "";
+                document.getElementById('authOverlay').classList.add('hide'); // 認証画面を隠す
+                
+                // 💡重要：ログインが成功した「この瞬間」からデモの秒数カウントを開始する
+                startDemoTimeline();
+            } else {
+                errorEl.innerText = "ユーザーIDまたはパスワードが正しくありません。";
+            }
+        }
+
+        // Enterキーでもログインできるようにフック
+        document.getElementById('password')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkAuth();
+        });
+
+        /* 💡修正：元々のDOMContentLoadedの中身を関数に包み、認証クリア後に安全に発火させる */
+        function startDemoTimeline() {
             setTimeout(() => {
                 const summary = document.getElementById('flowSummary');
                 summary.classList.add('animate');
@@ -443,7 +559,7 @@
             setTimeout(() => {
                 document.getElementById('questionContainer').classList.add('active');
             }, 20000);
-        });
+        }
 
         function startDM(userQuestion) {
             document.getElementById('dmLayer').classList.add('active');
