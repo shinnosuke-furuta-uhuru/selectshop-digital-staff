@@ -69,7 +69,7 @@
             overflow-y: auto; 
             position: relative;
             background: #ffffff;
-            transition: opacity 0.4s ease; /* ページ切り替え用のフェード演出 */
+            transition: opacity 0.3s ease; /* 擬似ページ切り替え用のフェード */
         }
 
         .pdp-header {
@@ -81,7 +81,6 @@
             border-bottom: 1px solid var(--border-light);
             margin-top: 15px;
             background: #ffffff;
-            position: relative;
         }
         .brand-logo {
             font-family: 'Bodoni Moda', serif;
@@ -97,9 +96,6 @@
             background: #ffffff; 
             position: relative;
         }
-        .product-image-area img {
-            transition: src 0.4s ease;
-        }
 
         /* 商品情報（本家再現エリア） */
         .product-info {
@@ -109,301 +105,41 @@
 
         /* 簡単サイズチェック */
         .size-check-banner {
-            background: #1a1a1a;
-            color: #ffffff;
-            padding: 14px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
+            background: #1a1a1a; color: #ffffff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: bold;
         }
-        .size-check-link {
-            border: 1px solid #ffffff;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-        }
+        .size-check-link { border: 1px solid #ffffff; padding: 4px 12px; border-radius: 20px; font-size: 11px; }
 
-        /* 在庫・カラーセクション */
-        .pdp-section-box {
-            background: #ffffff;
-            padding: 20px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .color-name-title {
-            font-size: 12px;
-            color: var(--text-sub);
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
-        }
-        .size-stock-chips {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-        }
+        .pdp-section-box { background: #ffffff; padding: 20px; border-bottom: 1px solid #f0f0f0; }
+        .color-name-title { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; }
+        .size-stock-chips { display: flex; gap: 6px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; }
         .size-stock-chips::-webkit-scrollbar { display: none; }
-        .stock-chip {
-            border: 1px solid #dddddd;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 11px;
-            white-space: nowrap;
-            color: #444444;
-        }
-        .stock-notice {
-            font-size: 11px;
-            color: var(--text-sub);
-            margin-bottom: 15px;
-        }
+        .stock-chip { border: 1px solid #dddddd; padding: 6px 12px; border-radius: 4px; font-size: 11px; white-space: nowrap; color: #444444; }
 
-        /* カラーサムネイルパレット */
-        .color-thumbs-grid {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
+        .color-thumbs-grid { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; }
         .color-thumbs-grid::-webkit-scrollbar { display: none; }
-        .thumb-item {
-            flex: 0 0 52px;
-            text-align: center;
-        }
-        .thumb-img-box {
-            width: 52px;
-            height: 64px;
-            background: #f0f0f0;
-            border-radius: 2px;
-            border: 1px solid #eeeeee;
-            margin-bottom: 6px;
-            position: relative;
-        }
-        .thumb-item.active .thumb-img-box {
-            border: 1px solid #111111;
-        }
-        .thumb-img-box::before {
-            content: ""; position: absolute; width: 100%; height: 100%; top:0; left:0;
-            background: linear-gradient(135deg, #ebdcd0 0%, #bcbaa9 100%);
-        }
-        .thumb-item:nth-child(2) .thumb-img-box::before { background: #333333; }
-        .thumb-item:nth-child(3) .thumb-img-box::before { background: linear-gradient(135deg, #e5dfd8 0%, #bcbaa9 100%); }
-        .thumb-item:nth-child(4) .thumb-img-box::before { background: #555c4d; }
-        .thumb-item:nth-child(5) .thumb-img-box::before { background: #2e3542; }
+        .thumb-item { flex: 0 0 52px; text-align: center; }
+        .thumb-img-box { width: 52px; height: 64px; background: #f0f0f0; border-radius: 2px; border: 1px solid #eeeeee; margin-bottom: 6px; position: relative; }
+        .thumb-item.active .thumb-img-box { border: 1px solid #111111; }
+        .thumb-img-box::before { content: ""; position: absolute; width: 100%; height: 100%; top:0; left:0; background: linear-gradient(135deg, #ebdcd0 0%, #bcbaa9 100%); }
         
-        .thumb-label {
-            font-size: 9px;
-            color: var(--text-sub);
-            transform: scale(0.9);
-            display: block;
-            white-space: nowrap;
-        }
+        .thumb-label { font-size: 9px; color: var(--text-sub); display: block; white-space: nowrap; }
 
-        /* メインの商品タイトル・価格ブロック */
-        .main-meta-box {
-            background: #ffffff;
-            padding: 24px 20px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .meta-brand {
-            font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 1.5px;
-            color: #111111;
-            margin-bottom: 4px;
-        }
-        .meta-title {
-            font-size: 16px;
-            font-weight: 700;
-            line-height: 1.4;
-            color: #111111;
-            margin-bottom: 12px;
-        }
-        .meta-price-row {
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-        }
-        .meta-price-tax {
-            font-size: 12px;
-            font-weight: normal;
-            color: var(--text-sub);
-        }
-        .meta-points-delivery {
-            font-size: 11px;
-            color: var(--text-sub);
-            line-height: 1.6;
-        }
+        .main-meta-box { background: #ffffff; padding: 24px 20px; border-bottom: 1px solid #f0f0f0; }
+        .meta-brand { font-size: 11px; font-weight: bold; letter-spacing: 1.5px; margin-bottom: 4px; }
+        .meta-title { font-size: 16px; font-weight: 700; line-height: 1.4; margin-bottom: 12px; }
+        .meta-price-row { font-size: 18px; font-weight: bold; }
+        .meta-price-tax { font-size: 12px; font-weight: normal; color: var(--text-sub); }
 
-        /* レビュー星評価 */
-        .rating-box {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #f5f5f5;
-            font-size: 12px;
-        }
-        .stars { color: #f59e0b; letter-spacing: -2px; font-size: 14px; }
-        .rating-score { font-weight: bold; }
-        .rating-count { color: var(--text-sub); }
-        .rating-link { color: var(--text-sub); text-decoration: underline; margin-left: auto; }
-
-        /* 配送・返品についての詳細リスト */
-        .shipping-detail-list {
-            background: #ffffff;
-            padding: 16px 20px;
-            font-size: 11.5px;
-            color: #444444;
-            line-height: 1.8;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .shipping-link-span {
-            color: var(--text-sub);
-            text-decoration: underline;
-            margin-left: 4px;
-            cursor: pointer;
-        }
-
-        /* Amazon Pay セクション */
-        .amazon-pay-section {
-            background: #f4f4f4;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        .amazon-logo-box {
-            font-family: 'Bodoni Moda', serif;
-            font-style: italic;
-            font-weight: bold;
-            font-size: 16px;
-            color: #111111;
-            margin-bottom: 8px;
-        }
-        .amazon-logo-box span { color: #ff9900; }
-        .amazon-text {
-            font-size: 11px;
-            color: var(--text-sub);
-            line-height: 1.5;
-            max-width: 280px;
-            margin: 0 auto;
-        }
-
-        /* ページ内のインライン大型ボタン群 */
-        .pdp-inline-actions {
-            background: #ffffff;
-            padding: 24px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .inline-btn-blue {
-            background: #3b82f6;
-            color: #ffffff;
-            width: 100%;
-            border: none;
-            padding: 16px;
-            border-radius: 6px;
-            font-size: 13.5px;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-        .inline-btn-outline {
-            background: #ffffff;
-            color: #222222;
-            width: 100%;
-            border: 1px solid #cccccc;
-            padding: 16px;
-            border-radius: 6px;
-            font-size: 13.5px;
-            font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-        }
-
-        .pdp-inline-sub-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-        }
-        .inline-sub-btn {
-            flex: 1;
-            background: #ffffff;
-            border: 1px solid #e0e0e0;
-            padding: 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            color: #444444;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* --- 固定フッター --- */
         .pdp-footer-action {
-            height: 80px;
-            padding: 15px 20px;
-            border-top: 1px solid var(--border-light);
-            display: flex;
-            gap: 12px;
-            background: #ffffff;
-            z-index: 600; 
+            height: 80px; padding: 15px 20px; border-top: 1px solid var(--border-light); display: flex; gap: 12px; background: #ffffff; z-index: 600; 
         }
-        .action-btn-main {
-            flex: 1;
-            background: #111111;
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .action-btn-sub {
-            width: 50px;
-            border: 1px solid #cccccc;
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .action-btn-main { flex: 1; background: #111111; color: #ffffff; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; }
+        .action-btn-sub { width: 50px; border: 1px solid #cccccc; border-radius: 8px; display: flex; justify-content: center; align-items: center; }
 
         /* --- 固定型ストリーミング接客レイヤー --- */
-        .streaming-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; 
-            z-index: 500; 
-        }
-
-        .flow-summary-card {
-            position: absolute;
-            left: 16px; right: 16px;
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border-radius: 20px;
-            padding: 18px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-            opacity: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .flow-summary-card.animate {
-            animation: summaryScrollUp 6.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
+        .streaming-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500; }
+        .flow-summary-card { position: absolute; left: 16px; right: 16px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-radius: 20px; padding: 18px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); opacity: 0; display: flex; flex-direction: column; gap: 10px; }
+        .flow-summary-card.animate { animation: summaryScrollUp 6.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
         @keyframes summaryScrollUp {
             0% { transform: translateY(750px); opacity: 0; }
@@ -419,23 +155,9 @@
         .staff-avatar { width: 26px; height: 26px; border-radius: 50%; background: #bcbaa9; border: 1px solid var(--primary-color); overflow: hidden; }
         .staff-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .staff-name { font-size: 11px; font-weight: bold; }
-        .highlight-word { color: var(--primary-color); font-weight: bold; }
 
         /* 口コミ */
-        .flow-review-item {
-            position: absolute;
-            background: rgba(17, 17, 17, 0.88);
-            color: #ffffff;
-            padding: 12px 18px;
-            border-radius: 20px;
-            font-size: 12px;
-            line-height: 1.5;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-            opacity: 0;
-            white-space: normal;
-            max-width: 250px; 
-            word-break: break-word;
-        }
+        .flow-review-item { position: absolute; background: rgba(17, 17, 17, 0.88); color: #ffffff; padding: 12px 18px; border-radius: 20px; font-size: 12px; line-height: 1.5; box-shadow: 0 8px 24px rgba(0,0,0,0.12); opacity: 0; max-width: 250px; word-break: break-word; }
         .review-highlight { color: var(--primary-color); font-weight: 700; font-size: 13.5px; display: inline-block; padding: 0 2px; }
 
         @keyframes reviewScrollUp {
@@ -445,44 +167,18 @@
             100% { transform: translateY(-120px) scale(0.95); opacity: 0; }
         }
 
-        /* ③ 想定質問ボタン */
-        .question-container {
-            position: absolute;
-            top: 36%; left: 20px; right: 20px;
-            display: flex; flex-direction: column; gap: 10px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 550; 
-            pointer-events: none;
-        }
+        /* 想定質問ボタン */
+        .question-container { position: absolute; top: 36%; left: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); z-index: 550; pointer-events: none; }
         .question-container.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
-        .question-btn {
-            background: #ffffff; border: 1px solid #111111; padding: 14px 16px; border-radius: 24px;
-            font-size: 13px; font-weight: bold; text-align: left; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.2s ease;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .question-btn { background: #ffffff; border: 1px solid #111111; padding: 14px 16px; border-radius: 24px; font-size: 13px; font-weight: bold; text-align: left; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
         .question-btn::after { content: "→"; font-family: 'Bodoni Moda', serif; color: var(--primary-color); }
-        .question-btn:hover { background: #111111; color: #ffffff; }
 
-        /* --- ④ スタッフDM画面 --- */
-        .dm-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-        }
+        /* --- スタッフDM画面 --- */
+        .dm-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 998; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
         .dm-overlay.active { opacity: 1; pointer-events: auto; }
 
         .dm-layer {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; 
-            height: 72%; /* 表示領域を72%に広げて画像スペースを完全に確保 */
-            background: #ffffff; z-index: 1000;
-            transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex; flex-direction: column;
-            border-top-left-radius: 24px; border-top-right-radius: 24px;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 72%; background: #ffffff; z-index: 1000; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; border-top-left-radius: 24px; border-top-right-radius: 24px; box-shadow: 0 -10px 40px rgba(0,0,0,0.15); 
         }
         .dm-layer.active { transform: translateY(0); }
         .sheet-handle { width: 40px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 8px auto 0; }
@@ -491,67 +187,34 @@
         .dm-back { cursor: pointer; font-size: 18px; }
         
         /* 下部に220pxの巨大パディングを敷き詰め、最下部までスクロールした際に画像を完全にボタンの上まで引き上げます */
-        .dm-body { 
-            flex: 1; 
-            padding: 20px 20px 220px 20px; 
-            overflow-y: auto; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 16px; 
-            background: #fafafa; 
-        }
+        .dm-body { flex: 1; padding: 20px 20px 220px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: #fafafa; }
         
         .agent-msg-wrapper { display: flex; gap: 8px; align-items: flex-end; align-self: flex-start; max-width: 85%; }
         .agent-mini-avatar { width: 24px; height: 24px; border-radius: 50%; background: #eee; flex-shrink: 0; overflow: hidden; border: 1px solid #ddd; }
         .agent-mini-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-        .msg {
-            padding: 12px 16px; border-radius: 18px; font-size: 13px; line-height: 1.5;
-            opacity: 0; transform: translateY(10px); animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        .msg { padding: 12px 16px; border-radius: 18px; font-size: 13px; line-height: 1.5; opacity: 0; transform: translateY(10px); animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes msgFadeIn { to { opacity: 1; transform: translateY(0); } }
         
         .msg.user { background: #111111; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 4px; max-width: 80%; }
         .msg.agent { background: #ffffff; color: var(--text-main); border-bottom-left-radius: 4px; border: 1px solid #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 
         /* 接客画像カルーセル */
-        .dm-carousel {
-            display: flex; gap: 12px; overflow-x: auto; padding: 8px 20px 8px 32px; width: calc(100% + 40px); margin-left: -20px; scroll-snap-type: x mandatory; pointer-events: auto;
-            flex-shrink: 0; /* 絶対に縮まないようにガード */
-            opacity: 0; animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
-        }
+        .dm-carousel { display: flex; gap: 12px; overflow-x: auto; padding: 8px 20px 8px 32px; width: calc(100% + 40px); margin-left: -20px; scroll-snap-type: x mandatory; pointer-events: auto; flex-shrink: 0; opacity: 0; animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1) 0.4s; }
         .dm-carousel::-webkit-scrollbar { display: none; }
         
-        /* 全身の「ずるっと感」が100%伝わる縦長200px */
-        .dm-carousel-item { 
-            flex: 0 0 130px; 
-            height: 200px; 
-            border-radius: 12px; 
-            scroll-snap-align: start; 
-            position: relative; 
-            overflow: hidden; 
-            background: #eee; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            pointer-events: auto; 
-        }
+        .dm-carousel-item { flex: 0 0 130px; height: 200px; border-radius: 12px; scroll-snap-align: start; position: relative; overflow: hidden; background: #eee; box-shadow: 0 4px 15px rgba(0,0,0,0.1); pointer-events: auto; }
         .dm-carousel-item img { width: 100%; height: 100%; object-fit: cover; }
-        .dm-carousel-item::after {
-            content: attr(data-label); position: absolute; bottom: 8px; left: 8px; font-size: 9px; font-weight: bold; color: #fff;
-            background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; letter-spacing: 1px;
-        }
+        .dm-carousel-item::after { content: attr(data-label); position: absolute; bottom: 8px; left: 8px; font-size: 9px; font-weight: bold; color: #fff; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; letter-spacing: 1px; }
 
         /* 自由チャット入力UI */
-        .dm-input-area {
-            padding: 12px 20px; border-top: 1px solid #eeeeee; background: #ffffff; display: flex; gap: 10px; align-items: center; z-index: 1100;
-        }
-        .dm-input-area input {
-            flex: 1; border: 1px solid #eeeeee; background: #f8f8f8; padding: 10px 16px; border-radius: 20px; font-size: 13px; outline: none;
-        }
+        .dm-input-area { padding: 12px 20px; border-top: 1px solid #eeeeee; background: #ffffff; display: flex; gap: 10px; align-items: center; z-index: 1100; }
+        .dm-input-area input { flex: 1; border: 1px solid #eeeeee; background: #f8f8f8; padding: 10px 16px; border-radius: 20px; font-size: 13px; outline: none; }
         .dm-send-btn { color: var(--primary-color); font-weight: bold; font-size: 14px; cursor: pointer; }
 
         .dm-footer-action { padding: 15px 20px 25px 20px; background: #ffffff; border-top: 1px solid #eeeeee; display: none; z-index: 1100; }
         .dm-footer-action.active { display: block; opacity: 1; animation: msgFadeIn 0.6s forwards; }
-        .neon-cart-btn { width: 100%; background: #111111; color: #ffffff; border: none; padding: 16px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; transition: all 0.3s ease; text-align: center; }
+        .neon-cart-btn { width: 100%; background: #111111; color: #ffffff; border: none; padding: 16px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; text-align: center; }
         .neon-cart-btn.glow { animation: neonPulse 2s infinite alternate; }
         @keyframes neonPulse { 0% { box-shadow: 0 0 4px #fff, 0 0 10px var(--primary-color); } 100% { box-shadow: 0 0 8px #fff, 0 0 20px var(--primary-color); } }
     </style>
@@ -592,7 +255,7 @@
                     <div class="color-thumbs-grid">
                         <div class="thumb-item"><div class="thumb-img-box"></div><span class="thumb-label">CEMENT</span></div>
                         <div class="thumb-item"><div class="thumb-img-box"></div><span class="thumb-label">BLACK</span></div>
-                        <div class="thumb-item active"><div class="thumb-img-box"></div><span class="thumb-label" style="font-weight: bold; color:#111;">KHAKI</span></div>
+                        <div class="thumb-item active"><div class="thumb-img-box"></div><span class="thumb-label" style="font-weight: bold; color:#111;" id="colorLabel">KHAKI</span></div>
                         <div class="thumb-item"><div class="thumb-img-box"></div><span class="thumb-label">OLIVE</span></div>
                         <div class="thumb-item"><div class="thumb-img-box"></div><span class="thumb-label">NAVY</span></div>
                     </div>
@@ -642,7 +305,7 @@
                     <div class="staff-avatar"><img src="./hikari.jpg" onerror="this.src='https://i.pravatar.cc/100?img=32'"></div>
                     <div class="staff-name">HIKARI (158cm) | RECOMMEND</div>
                 </div>
-                <div class="stories-text">ウエストをあえて落として、<span class="highlight-word">ずるっと履く</span>のが今年の一番の推しスタイル。この<span class="highlight-word">クタッと感が最高</span>なんです。</div>
+                <div class="stories-text">ウエストをあえて落として、<span class="highlight-word">ずるっと履く</span>のが今年の一番の推しスタイル。この<span class="highlight-word">クタッと感が最高</span>んです。</div>
             </div>
         </div>
 
@@ -672,7 +335,7 @@
             </div>
 
             <div class="dm-footer-action" id="dmFooter">
-                <button class="neon-cart-btn glow" onclick="clickCartIn()">このサイズ（M）をカートに入れる</button>
+                <button id="mainCartBtn" class="neon-cart-btn glow" onclick="clickCartInDirect()">このサイズ（M）をカートに入れる</button>
             </div>
         </div>
     </div>
@@ -705,7 +368,6 @@
                 const container = document.getElementById('streamingContainer');
                 reviewsData.forEach((data, index) => {
                     const reviewEl = document.createElement('div');
-                    reviewEl.createElement = 'div';
                     reviewEl.classList.add('flow-review-item');
                     reviewEl.innerHTML = data.text;
                     if (data.left) reviewEl.style.left = `${data.left}px`;
@@ -757,21 +419,69 @@
             }, 1200);
         }
 
-        /* 💡新設：カートインエフェクト ＆ 別商品への遷移誘導ロジック */
-        function clickCartIn() {
-            const btn = document.querySelector('.neon-cart-btn');
-            btn.innerText = "カートに追加しました！🛒";
-            btn.classList.remove('glow');
-            btn.style.background = "#22c55e"; // 成功のグリーンに変化
-            
-            // 右上のカートアイコンを「①」にする
-            document.getElementById('headerCart').innerHTML = "🛒<span style='font-size:10px; color:#ffffff; background:var(--primary-color); border-radius:50%; width:15px; height:15px; display:flex; justify-content:center; align-items:center; position:absolute; top:-4px; right:-6px; font-weight:bold;'>1</span>";
+        /* 💡自由チャット欄からのカートイン誘導＆分岐ロジックの完全実装 */
+        function handleSend() {
+            const input = document.getElementById('dmInput');
+            const text = input.value;
+            if (!text) return;
+            appendMessage(text, 'user');
+            input.value = '';
 
-            // カートイン直後にAI店員から次なるクロスセル提案が走る
             setTimeout(() => {
-                appendMessage("チノパン、しっかりキープ（カートイン）しておきました！👍\n\nちなみに、さっきカルーセルの1枚目でお見せしたコーディネートで羽織っている、上品な『フレンチリネンシャツ』も今季めちゃくちゃ人気なんです。そちらのアイテムも見に行ってみますか？", 'agent');
+                // 顧客が「ジャケット」「欲しい」「シャツ」など別商品に興味を持ったかを判定
+                if (text.includes('ジャケット') || text.includes('欲しい') || text.includes('真ん中') || text.includes('シャツ')) {
+                    appendMessage("真ん中のネイビートラッドジャケット、めちゃくちゃ格好良いですよね！チノのクタッと感にさらっと羽織るだけで、一気に上品なハズしが完成します。ジャケットのページをご案内する前に、こちらのチノパン（Mサイズ）を一旦カートに入れておきますか？", 'agent');
+                    
+                    // チャットスレッド内に「カートインするボタン」を動的に生成
+                    setTimeout(() => {
+                        const dmBody = document.getElementById('dmBody');
+                        const choiceDiv = document.createElement('div');
+                        choiceDiv.style.display = 'flex';
+                        choiceDiv.style.gap = '8px';
+                        choiceDiv.style.width = '100%';
+                        choiceDiv.style.pointerEvents = 'auto';
+                        
+                        const yesBtn = document.createElement('button');
+                        yesBtn.className = 'question-btn';
+                        yesBtn.style.flex = '1';
+                        yesBtn.style.textAlign = 'center';
+                        yesBtn.style.border = '1px solid var(--primary-color)';
+                        yesBtn.innerHTML = "はい、チノパンをカートに入れる";
+                        yesBtn.onclick = () => {
+                            yesBtn.disabled = true;
+                            executeCartInFromChat();
+                        };
+                        
+                        choiceDiv.appendChild(yesBtn);
+                        dmBody.appendChild(choiceDiv);
+                        
+                        setTimeout(() => {
+                            dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
+                        }, 100);
+                    }, 800);
+                } else {
+                    appendMessage("ありがとうございます！その点については、素材の『クタッと感』を活かしたスタイリングがバッチリ合いますよ。", 'agent');
+                }
+            }, 1000);
+        }
+
+        /* チャット内ボタン経由のカートイン処理 */
+        function executeCartInFromChat() {
+            // 右上のカートアイコンを1にする
+            document.getElementById('headerCart').innerHTML = "🛒<span style='font-size:10px; color:#ffffff; background:var(--primary-color); border-radius:50%; width:15px; height:15px; display:flex; justify-content:center; align-items:center; position:absolute; top:-4px; right:-6px; font-weight:bold;'>1</span>";
+            
+            // 下部メインボタンの表示も連動
+            const footerBtn = document.getElementById('mainCartBtn');
+            footerBtn.innerText = "チノパンをカートに追加しました！🛒";
+            footerBtn.classList.remove('glow');
+            footerBtn.style.background = "#22c55e";
+
+            appendMessage("はい、カートに入れます。", 'user');
+            
+            setTimeout(() => {
+                appendMessage("チノパン、しっかりキープ（カートイン）しておきました！👍 では、スタイリングで着用していた『ネイビートラッドジャケット』のページへご案内しますね！", 'agent');
                 
-                // チャットスレッド内に「別商品ページへの擬似遷移ボタン」を流す
+                // 次の別商品ページへ擬似リダイレクトするボタンの出現
                 setTimeout(() => {
                     const dmBody = document.getElementById('dmBody');
                     const nextLinkBtn = document.createElement('button');
@@ -780,52 +490,71 @@
                     nextLinkBtn.style.width = '100%';
                     nextLinkBtn.style.pointerEvents = 'auto';
                     nextLinkBtn.style.border = '1px solid var(--primary-color)';
-                    nextLinkBtn.innerHTML = "【次の提案を見る】リネンシャツのページへ ➔";
-                    
-                    // タップしたら別商品PDPへ遷移する関数を発火
+                    nextLinkBtn.innerHTML = "【次の提案を見る】ジャケットのページへ進む ➔";
                     nextLinkBtn.onclick = () => goToNextProduct();
                     
                     dmBody.appendChild(nextLinkBtn);
-                    
-                    setTimeout(() => {
-                        dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
-                    }, 100);
-                }, 1200);
-            }, 1200);
+                    dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
+                }, 1000);
+            }, 1000);
         }
 
-        /* 💡新設：別商品ページへの擬似遷移 ＆ セッション記憶（コンテキスト維持）接客再現 */
+        /* 下部固定ボタンから直接カートインした場合のフォールバック */
+        function clickCartInDirect() {
+            const btn = document.getElementById('mainCartBtn');
+            btn.innerText = "カートに追加しました！🛒";
+            btn.classList.remove('glow');
+            btn.style.background = "#22c55e";
+            document.getElementById('headerCart').innerHTML = "🛒<span style='font-size:10px; color:#ffffff; background:var(--primary-color); border-radius:50%; width:15px; height:15px; display:flex; justify-content:center; align-items:center; position:absolute; top:-4px; right:-6px; font-weight:bold;'>1</span>";
+
+            setTimeout(() => {
+                appendMessage("チノパンをカートに確保しました！こちらのスタイリングで合わせている『ネイビートラッドジャケット』も非常におすすめなのですが、ページを見に行ってみますか？", 'agent');
+                setTimeout(() => {
+                    const dmBody = document.getElementById('dmBody');
+                    const nextLinkBtn = document.createElement('button');
+                    nextLinkBtn.className = 'question-btn';
+                    nextLinkBtn.style.width = '100%';
+                    nextLinkBtn.style.pointerEvents = 'auto';
+                    nextLinkBtn.style.border = '1px solid var(--primary-color)';
+                    nextLinkBtn.innerHTML = "ジャケットのページへ遷移する ➔";
+                    nextLinkBtn.onclick = () => goToNextProduct();
+                    dmBody.appendChild(nextLinkBtn);
+                    dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
+                }, 1000);
+            }, 1000);
+        }
+
+        /* 💡新設：別商品（ジャケット）ページへの擬似遷移 ＆ セッション記憶接客の再現 */
         function goToNextProduct() {
-            // 一瞬DMシートを閉じて、ページが切り替わる臨場感を演出
             closeDM();
-            
             const pdp = document.getElementById('pdpContainer');
-            pdp.style.opacity = '0'; // フェードアウト
+            pdp.style.opacity = '0'; // 画面暗転フェードアウト
             
             setTimeout(() => {
-                // 1st Viewの情報を一瞬で「シャツ」に書き換える（ダミーリダイレクト）
-                document.getElementById('pdpImage').src = 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?q=80&w=500&auto=format&fit=crop';
-                document.getElementById('pdpTitle').innerText = 'FRENCH LINEN REGULAR SHIRT';
-                document.getElementById('pdpPrice').innerHTML = '¥14,300 <span class="meta-price-tax">(税込)</span>';
-                document.getElementById('colorTitle').innerText = 'WHITE';
+                // 1st Viewの内容を一瞬で「ネイビージャケット」のパーツ情報に書き換え
+                document.getElementById('pdpImage').src = 'https://images.unsplash.com/photo-1593032465175-481ac7f401a0?q=80&w=500&auto=format&fit=crop';
+                document.getElementById('pdpTitle').innerText = 'NAVY TRAD BLAZER JACKET';
+                document.getElementById('pdpPrice').innerHTML = '¥38,500 <span class="meta-price-tax">(税込)</span>';
+                document.getElementById('colorTitle').innerText = 'NAVY';
+                document.getElementById('colorLabel').innerText = 'NAVY';
                 
                 pdp.style.opacity = '1'; // フェードイン
                 
-                // 1.5秒後、移動先の棚でHIKARIが「さっきの文脈を覚えた状態」で自動で話しかけてくる神演出
+                // 1.5秒後、移動先のページでHIKARIが「さっきの文脈を覚えた状態」で自動で話しかけてくる演出
                 setTimeout(() => {
                     document.getElementById('dmLayer').classList.add('active');
                     document.getElementById('dmOverlay').classList.add('active');
                     document.querySelector('.pdp-container').style.overflow = 'hidden';
 
-                    appendMessage("シャツのページへようこそ！✨ さっきカートに入れていただいた『ヴィンテージチノ』とこのシャツを合わせると、まさに先ほどお話しした『ヨーロッパの空気感』が120%完成します！チノのクタッと感に、リネンの上質な風合いが絶妙にマッチするんですよね。僕のイチ推しコーデです！", 'agent');
+                    appendMessage("ジャケットのページへようこそ！✨ さっきカートに入れていただいた『ヴィンテージチノ』にこの紺ブレをサッと羽織るだけで、まさに先ほどお話しした洗練された『ヨーロッパの空気感』が完成します！チノのクタッと感と、ジャケットの上品なトラッド感のハズしのバランスが本当に最高なんです。僕の一押しの合わせです！", 'agent');
                     
                     // 下部CTAボタンを「合わせ買い」仕様にトランスフォーム
-                    const footerBtn = document.querySelector('.neon-cart-btn');
-                    footerBtn.innerText = "チノパンと合わせて、このシャツもカートに入れる";
+                    const footerBtn = document.getElementById('mainCartBtn');
+                    footerBtn.innerText = "チノパンと合わせて、このジャケットもカートに入れる";
                     footerBtn.style.background = "#111111";
                     footerBtn.classList.add('glow');
                     
-                    // 2回目のカートインアクション
+                    // 2点目のカートインアクション
                     footerBtn.onclick = () => {
                         footerBtn.innerText = "2点まとめてカートに追加しました！🛒";
                         footerBtn.style.background = "#22c55e";
@@ -884,16 +613,6 @@
             setTimeout(() => {
                 dmBody.scrollTo({ top: dmBody.scrollHeight, behavior: 'smooth' });
             }, 400); 
-        }
-
-        function handleSend() {
-            const input = document.getElementById('dmInput');
-            if (!input.value) return;
-            appendMessage(input.value, 'user');
-            input.value = '';
-            setTimeout(() => {
-                appendMessage("ありがとうございます！その点については、素材の『クタッと感』を活かしたスタイリングがバッチリ合いますよ。", 'agent');
-            }, 1000);
         }
 
         function closeDM() {
