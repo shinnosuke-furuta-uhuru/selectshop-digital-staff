@@ -18,10 +18,10 @@
             --glass-bg: rgba(255, 255, 255, 0.9);
             --glass-blur: blur(12px);
             
-            /* 💡新設：アメリカ西海岸（ウォームヴィンテージ）パレット */
-            --wb-bg: rgba(38, 35, 32, 0.92);      /* 日差しで色褪せた古着のような墨黒 */
-            --wb-text: #f7f4eb;                    /* 生成り・無漂白コットンのアイボリー */
-            --wb-highlight: #de6628;               /* カリフォルニアの夕陽（サンセットゴールド） */
+            /* 💡一目で激変したとわかる、100%西海岸ヴィンテージ（70'sウォームアース）パレット */
+            --wb-bg: rgba(184, 91, 53, 0.94);      /* カリフォルニアの夕陽を浴びたテラコッタ（フェードバーントオレンジ） */
+            --wb-text: #fdfbf7;                    /* 70年代古着のタグのような、無漂白コットンの優しげな生成りアイボリー */
+            --wb-highlight: #f3bc3c;               /* 当時のアイビー・カレッジカルチャーを象徴するレトロマスタードイエロー */
         }
 
         * {
@@ -198,22 +198,22 @@
         .staff-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .staff-name { font-size: 11px; font-weight: bold; }
 
-        /* 💡アプデ：口コミの「見た目」をアメリカ西海岸のウォームヴィンテージトーンへハッキング */
+        /* 💡アプデ：口コミの背景と強調色に西海岸アースカラーパレットを完全適用 */
         .flow-review-item { 
             position: absolute; 
-            background: var(--wb-bg);      /* 墨黒フェードチャコール */
-            color: var(--wb-text);         /* 生成りアイボリー */
+            background: var(--wb-bg);      /* 70'sフェードテラコッタ */
+            color: var(--wb-text);         /* 生成りコットンのアイボリー */
             padding: 12px 18px; 
             border-radius: 20px; 
             font-size: 12px; 
             line-height: 1.5; 
-            box-shadow: 0 8px 24px rgba(38,35,32,0.18); 
+            box-shadow: 0 8px 24px rgba(184,91,53,0.22); 
             opacity: 0; 
             max-width: 250px; 
             word-break: break-word; 
         }
         .review-highlight { 
-            color: var(--wb-highlight);   /* カリフォルニアの夕陽サンセットゴールド */
+            color: var(--wb-highlight);   /* サンセットマスタードゴールド */
             font-weight: 700; 
             font-size: 13.5px; 
             display: inline-block; 
@@ -415,7 +415,7 @@
     </div>
 
     <script>
-        // 💡復元：元の日本語「高感度ワード」の口コミデータへ100%完全復元
+        // 元の日本語「高感度ワード」の口コミデータへ100%完全復元
         const reviewsData = [
             { text: "🔥 生地の<span class='review-highlight'>クタッと感</span>がヴィンテージライクで最高！", left: 16, delay: 0 },
             { text: "160cmだけど<span class='review-highlight'>ずるっと</span>穿けて引きずらない絶妙な丈！", right: 16, delay: 0.8 },
@@ -431,7 +431,7 @@
             { text: "とにかく<span class='review-highlight'>シルエットが綺麗</span>。色違いのホワイトも追います。笑", right: 24, delay: 13.8 }
         ];
 
-        // 💡復元：ジャケットページ専用の洗練された日本語の口コミデータへ100%完全復元
+        // ジャケットページ専用の洗練された日本語の口コミデータへ100%完全復元
         const jacketReviewsData = [
             { text: "金ボタンの贅沢感がこの価格で手に入るのバグすぎる…！✨", left: 16, delay: 0 },
             { text: "トラッドすぎない絶妙なボックスシルエット！羽織るだけでお洒落感でる。", right: 16, delay: 0.8 },
@@ -516,11 +516,9 @@
             input.value = '';
 
             setTimeout(() => {
-                // ジャケットページで、ユーザーが「カート」「これも」などと手入力して送信した場合
                 if (isJacketPage && (text.includes('カート') || text.includes('これも') || text.includes('入れて') || text.includes('追加'))) {
                     executeFinalCombinedCartIn();
                 }
-                // チノパンページで、ユーザーが別商品に興味を持った場合の既存ロジック
                 else if (!isJacketPage && (text.includes('ジャケット') || text.includes('欲しい') || text.includes('真ん中') || text.includes('シャツ'))) {
                     appendMessage("真ん中のネイビートラッドジャケット、めちゃくちゃ格好良いですよね！チノのクタッと感にさらっと羽織るだけで、一気に上品なハズしが完成します。ジャケットのページをご案内する前に、こちらのチノパン（Mサイズ）を一旦カートに入れておきますか？", 'agent');
                     
