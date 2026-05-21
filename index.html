@@ -146,15 +146,15 @@
             font-size: 18px;
         }
 
-        /* --- ⬇新：下から上へ美しく湧き上がるストリーミング接客レイヤー --- */
+        /* --- ストリーミング接客レイヤー --- */
         .streaming-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* 下のボタンの邪魔をしない */
+            pointer-events: none; 
             z-index: 500;
         }
 
-        /* ① 商品詳細サマリー（画像にOverlayして下から上へ消えていく） */
+        /* ① 商品詳細サマリー */
         .flow-summary-card {
             position: absolute;
             left: 16px; right: 16px;
@@ -171,14 +171,14 @@
         }
         
         .flow-summary-card.animate {
-            animation: summaryScrollUp 5.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: summaryScrollUp 6.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         @keyframes summaryScrollUp {
             0% { transform: translateY(750px); opacity: 0; }
-            15% { transform: translateY(280px); opacity: 1; }  /* 画像の上に重なってじっくり読ませる */
+            15% { transform: translateY(280px); opacity: 1; }  
             75% { transform: translateY(240px); opacity: 1; }
-            100% { transform: translateY(-150px); opacity: 0; } /* 画面の1番上まで突き抜けて消える */
+            100% { transform: translateY(-150px); opacity: 0; } 
         }
 
         .stories-progress-bar {
@@ -188,7 +188,7 @@
             height: 100%; width: 0%; background: #111111;
         }
         .stories-progress-line.run {
-            transition: width 3.5s linear 0.8s; width: 100%;
+            transition: width 4.5s linear 0.8s; width: 100%;
         }
         .staff-header { display: flex; align-items: center; gap: 8px; }
         .staff-avatar { width: 26px; height: 26px; border-radius: 50%; background: #bcbaa9; border: 1px solid var(--primary-color); }
@@ -196,31 +196,44 @@
         .stories-text { font-size: 13.5px; line-height: 1.6; }
         .highlight-word { color: var(--primary-color); font-weight: bold; }
 
-        /* ② 12個の口コミ（下から上へポンポンと通り抜けていく） */
+        /* ② 12個の口コミ（画面幅に収める＆自動改行へ修正） */
         .flow-review-item {
             position: absolute;
             background: rgba(17, 17, 17, 0.88);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             color: #ffffff;
-            padding: 10px 16px;
+            padding: 12px 18px;
             border-radius: 20px;
-            font-size: 11.5px;
-            line-height: 1.4;
+            font-size: 12px;
+            line-height: 1.5;
             box-shadow: 0 8px 24px rgba(0,0,0,0.12);
             opacity: 0;
-            white-space: nowrap;
+            
+            /* 修正：幅を固定し、はみ出さずに自動改行させる */
+            white-space: normal;
+            max-width: 250px; 
+            word-break: break-word;
         }
 
-        /* 口コミが下から上へ最後まで抜けていく共通アニメーション */
+        /* 修正：口コミ内のポイントワードを大きめ・太字で強調するスタイル */
+        .review-highlight {
+            color: var(--primary-color); /* 黒背景に映えるオレンジ */
+            font-weight: 700;
+            font-size: 13.5px; /* 通常より一回り大きく */
+            display: inline-block;
+            padding: 0 2px;
+        }
+
+        /* 口コミ専用のスクロール（JSで秒数を可変にします） */
         @keyframes reviewScrollUp {
-            0% { transform: translateY(750px) scale(0.9); opacity: 0; }
-            10% { opacity: 1; transform: translateY(600px) scale(1); }
+            0% { transform: translateY(750px) scale(0.95); opacity: 0; }
+            10% { opacity: 1; transform: translateY(580px) scale(1); }
             90% { opacity: 1; }
-            100% { transform: translateY(-100px) scale(0.95); opacity: 0; }
+            100% { transform: translateY(-120px) scale(0.95); opacity: 0; }
         }
 
-        /* ③ 想定質問ボタン（中央付近にフェードイン） */
+        /* ③ 想定質問ボタン */
         .question-container {
             position: absolute;
             top: 42%; left: 20px; right: 20px;
@@ -251,7 +264,7 @@
         }
         .dm-overlay.active { opacity: 1; pointer-events: auto; }
 
-        /* ④ スタッフDM画面（高さ60%のハーフシート） */
+        /* ④ スタッフDM画面 */
         .dm-layer {
             position: absolute;
             bottom: 0; left: 0; width: 100%; height: 60%; 
@@ -271,7 +284,6 @@
             max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 13px; line-height: 1.5;
             opacity: 0; transform: translateY(10px); animation: msgFadeIn 0.5s forwards cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @webkit-keyframes msgFadeIn { to { opacity: 1; transform: translateY(0); } }
         @keyframes msgFadeIn { to { opacity: 1; transform: translateY(0); } }
         
         .msg.user { background: #111111; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 4px; }
@@ -375,26 +387,26 @@
     </div>
 
     <script>
-        // クライアントのカルチャーに刺さる厳選12個の高感度な口コミデータ
+        // 修正：キラーワードを <span class="review-highlight"> で囲み、目立たせる
         const reviewsData = [
-            { text: "🔥 生地のクタッと感がヴィンテージライクで最高！", left: 16, delay: 0 },
-            { text: "160cmだけどずるっと穿けて引きずらない絶妙な丈！", right: 16, delay: 0.5 },
-            { text: "シャツインしてローファー合わせたら、一気にヨーロッパの空気感！", left: 24, delay: 1.2 },
-            { text: "チノパンなのにめちゃくちゃ上品。カジュアルすぎない大人のワイド感。", right: 20, delay: 1.8 },
-            { text: "アジャスター付きだからウエスト位置で丈を調節できるの天才すぎる👏", left: 12, delay: 2.5 },
-            { text: "ガシガシ洗ってクタクタにして穿くのが今から楽しみ！", right: 30, delay: 3.2 },
-            { text: "太さがあるのに横に広がらない。落ち感が綺麗すぎます…", left: 20, delay: 3.8 },
-            { text: "別注ならではのディテール。ボタン一つとっても雰囲気あるな〜", right: 14, delay: 4.5 },
-            { text: "絶妙なベージュ。古着っぽい色落ちが最高にツボです。🎯", left: 32, delay: 5.0 },
-            { text: "スラックス感覚で穿けるヴィンテージチノ、やっと出会えました。", right: 16, delay: 5.6 },
-            { text: "裾が内側にたまるクッションのおかげで、理想の『ずるっと感』が出る！", left: 16, delay: 6.2 },
-            { text: "とにかくシルエットが綺麗。色違いのホワイトも追います。笑", right: 24, delay: 6.8 }
+            { text: "🔥 生地の<span class='review-highlight'>クタッと感</span>がヴィンテージライクで最高！", left: 16, delay: 0 },
+            { text: "160cmだけど<span class='review-highlight'>ずるっと</span>穿けて引きずらない絶妙な丈！", right: 16, delay: 0.8 },
+            { text: "シャツインしてローファー合わせたら、一気に<span class='review-highlight'>ヨーロッパの空気感</span>！", left: 24, delay: 2.0 },
+            { text: "チノパンなのにめちゃくちゃ上品。カジュアルすぎない<span class='review-highlight'>大人のワイド感</span>。", right: 20, delay: 3.2 },
+            { text: "アジャスター付きだからウエスト位置で<span class='review-highlight'>丈を調節できる</span>の天才すぎる👏", left: 12, delay: 4.8 },
+            { text: "ガシガシ洗って<span class='review-highlight'>クタクタにして穿く</span>のが今から楽しみ！", right: 24, delay: 6.0 },
+            { text: "太さがあるのに横に広がらない。<span class='review-highlight'>落ち感が綺麗すぎ</span>ます…", left: 20, delay: 7.2 },
+            { text: "別注ならではのディテール。ボタン一つとっても<span class='review-highlight'>雰囲気ある</span>な〜", right: 14, delay: 8.5 },
+            { text: "絶妙なベージュ。<span class='review-highlight'>古着っぽい色落ち</span>が最高にツボです。🎯", left: 28, delay: 9.8 },
+            { text: "スラックス感覚で穿ける<span class='review-highlight'>ヴィンテージチノ</span>、やっと出会えました。", right: 16, delay: 11.0 },
+            { text: "裾が内側にたまるクッションのおかげで、理想の<span class='review-highlight'>『ずるっと感』</span>が出る！", left: 16, delay: 12.5 },
+            { text: "とにかく<span class='review-highlight'>シルエットが綺麗</span>。色違いのホワイトも追います。笑", right: 24, delay: 13.8 }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
             // シナリオ開始
             
-            // 1. 1.0秒後：① 商品詳細サマリーが下から一番上へスクロール開始
+            // 1. 1.0秒後：① 商品詳細サマリーがスクロール開始
             setTimeout(() => {
                 const summary = document.getElementById('flowSummary');
                 summary.classList.add('animate');
@@ -403,7 +415,7 @@
                 progress.classList.add('run');
             }, 1000);
 
-            // 2. 5.5秒後（サマリーが上に抜け始めるタイミング）：② 12個の口コミが次々と下から湧き上がる
+            // 2. 6.0秒後：② 12個の口コミが自動緩急スピードで湧き上がる
             setTimeout(() => {
                 const container = document.getElementById('streamingContainer');
                 
@@ -412,25 +424,29 @@
                     reviewEl.classList.add('flow-review-item');
                     reviewEl.innerHTML = data.text;
                     
-                    // 左右の配置設定
                     if (data.left) reviewEl.style.left = `${data.left}px`;
                     if (data.right) reviewEl.style.right = `${data.right}px`;
                     
-                    // 流れる速度と出現タイミングをコントロール
-                    reviewEl.style.animation = `reviewScrollUp 4.5s cubic-bezier(0.25, 1, 0.5, 1) forwards`;
+                    // 修正：流れるスピードの自動緩急ルール
+                    // タグ（span等）を除いた純粋な文字数を計算
+                    const plainTextLen = data.text.replace(/<[^>]*>/g, '').length;
+                    // 基本速度を7秒と遅くし、文字数が多い（長いコメント）ほど、さらに長く画面に滞在させる
+                    const duration = 7 + (plainTextLen * 0.15); 
+                    
+                    reviewEl.style.animation = `reviewScrollUp ${duration}s cubic-bezier(0.22, 1, 0.36, 1) forwards`;
                     reviewEl.style.animationDelay = `${data.delay}s`;
                     
                     container.appendChild(reviewEl);
                 });
-            }, 5500);
+            }, 6000);
 
-            // 3. 14.5秒後（すべての口コミが上に流れきった後）：③ 想定質問ボタンがフェードイン
+            // 3. 口コミがゆっくり流れ切るタイミング（23秒後）に調整して、③ 質問ボタンを表示
             setTimeout(() => {
                 document.getElementById('questionContainer').classList.add('active');
-            }, 14500);
+            }, 23000);
         });
 
-        // ④ スタッフDM（AI対話 ＋ カールセル画像挿入）
+        // ④ スタッフDM（AI対話）
         function startDM(userQuestion) {
             const dmLayer = document.getElementById('dmLayer');
             const dmOverlay = document.getElementById('dmOverlay');
@@ -445,12 +461,12 @@
                 let showCarousel = false;
 
                 if(userQuestion.includes('引きずりませんか')) {
-                    agentReply = "めちゃくちゃ分かります！でも安心してください。このチノ、裾が少し内側にたまる（クッションになる）計算されたシルエットなんです。厚底スニーカーや3cmくらいのヒールを合わせてもらえれば、地面にはギリギリつかずに、理想の『ずるっと感』が出ますよ！実際のスタッフの着こなしも並べておきますね。";
+                    agentReply = "めちゃくちゃ分かります！でも安心してください。このチノ、裾が少し内側にたまる（クッションになる）計算されたシルエットんです。厚底スニーカーや3cmくらいのヒールを合わせてもらえれば、地面にはギリギリつかずに、理想の『ずるっと感』が出ますよ！実際のスタッフの着こなしも並べておきますね。";
                     showCarousel = true;
                 } else if(userQuestion.includes('経年変化')) {
                     agentReply = "この生地、穿き込むほどにさらに『クタッと感』が増して、自分だけのヴィンテージに育つんです。ガシガシ洗って、クタクタにして穿くのが最高にカッコいいですよ！";
                 } else {
-                    agentReply = "あえてトップスに綺麗めなフレンチリネンのシャツを合わせて、足元をローファーで締めるのがおすすめ。それだけで一気に『ヨーロッパの空気感』を纏った、洗練されたチノスタイルが完成します！";
+                    agentReply = "あえてトップスに綺麗めなフレンチリネンのシャツを合わせ、足元をローファーで締めるのがおすすめ。それだけで一気に『ヨーロッパの空気感』を纏った、洗練されたチノスタイルが完成します！";
                 }
                 
                 appendMessage(agentReply, 'agent');
